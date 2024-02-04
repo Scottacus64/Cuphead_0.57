@@ -1,0 +1,7 @@
+#show_version=6
+
+- duration: 1
+  lights:
+    l_perdition_1: yellow
+    l_perdition_2: FF1000
+    l_perdition_3: red

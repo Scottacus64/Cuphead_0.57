@@ -1,0 +1,1450 @@
+#config_version=6
+#Cuphead Base Mode Config
+
+mode:
+  start_events: ball_starting
+  priority: 100 # lowest pririty so other modes can take over
+  code: base.Base
+
+
+###############################################################################################
+#                                     COUNTERS                                                #
+###############################################################################################
+
+counters:
+  bonus:
+    count_events: drop_target_bank_cup_bank_down, drop_target_bank_mug_bank_down # each bank gets its own counter
+    events_when_hit: bank_done # when each back is done the event "bank_done" is posted
+    starting_count: 0
+    count_complete_value: 10 # set to 10 becasue there are 10 bonus lights
+    direction: up
+    persist_state: false # does not keep its value from ball to ball
+    disable_on_complete: true # once all ten bonus lights are lit, stop the counter
+  spinner_rotations:
+    count_events: s_spinner_active
+    count_complete_value: 7
+    starting_count: 0
+    direction: up
+    persist_state: true
+    events_when_hit: advance_lane
+    reset_on_complete: true
+    disable_on_complete: false
+
+###############################################################################################
+#                                     TIMERS                                                  #
+###############################################################################################
+
+timers:
+  spinner_timer: # this timer waits 2.5 seconnds for the spinner to stop spinning to see if the dice roll is a 7
+    direction: down
+    start_value: 5
+    end_value: 0
+    tick_interval: 500ms
+    debug: true
+    control_events:
+      - action: restart
+        event: s_spinner_active
+  special7_timer: # this timer will be active if a 7 is rolled and if another 7 is rolled while active, 7000 points are awarded
+    direction: up
+    start_value: 1
+    end_value: 27
+    tick_interval: 1s
+    debug: True
+    control_events:
+      - action: restart
+        event: special7Go
+      - action: stop
+        event: sevens
+  special7HurryUp_timer: # this timer flashes the 7 quickly to let the player know that time is running out
+    direction: up
+    start_value: 1
+    end_value: 3
+    tick_interval: 1s
+    debug: true
+    control_events:
+      - action: restart
+        event: timer_special7_timer_complete
+      - action: stop
+        event: sevens
+      - action: stop
+        event: special7Go
+  perditionPost_timer: # this timer counts for 1 second after the perdition MB has started to trigger raising the perdition post
+    direction: down
+    start_value: 2
+    end_value: 0
+    tick_interval: 500ms
+    debug: true
+    control_events:
+      - action: restart
+        event: startMBPost
+      - action: restart
+        event: clearLane
+  postBlockUp_timer: # this timer counts for 1250ms after the ball has been kicked out of perdition to trigger raising the perdition post
+    direction: down
+    start_value: 5
+    end_value: 0
+    tick_interval: 250ms
+    debug: True
+    control_events:
+      - action: restart
+        event: perd1
+      - action: restart
+        event: perd2
+  postBlockDown_timer: # this timer counts for 2 seconds to lower the post
+    direction: down
+    start_value: 4
+    end_value: 0
+    tick_interval: 500ms
+    debug: true
+    control_events:
+      - action: restart
+        event: timer_postBlockUp_timer_complete
+  perdMB_timer: # this timer starts and ends the HurryUp show for the shoot again light
+    direction: up
+    start_value: 1
+    end_value: 10
+    tick_interval: 1S
+    control_events:
+      - action: restart
+        event: startMBPost.3
+  score_motor_500_timer: # this timer is for scoring 500 points, on each pulse the game scores 100 points on the score reels (*5)
+    direction: up
+    start_value: 1
+    end_value: 6
+    tick_interval: 100ms
+    debug: true
+    control_events: # these are the events that score 500 points
+      - action: restart
+        event: pay500
+  score_motor_50_timer: # this timer is for scoring 50 points, on each pulse the game scores 10 points on the score reels (*5)
+    direction: up
+    start_value: 1
+    end_value: 6 # if set to 5 will only score 40 not 50 with "timer_score_motor_50_timer_tick:" in the variable_player
+    tick_interval: 100ms
+    control_events: # these are the events that score 50 points
+      - action: restart
+        event: s_midRight_active
+      - action: restart
+        event: pay50
+  dropTargetCupCheck_timer:
+    direction: up
+    start_value: 0
+    end_value: 10
+    tick_interval: 100ms
+    debug: true
+    control_events:
+      - action: restart
+        event: drop_target_bank_cup_bank_down
+      - action: stop
+        event: drop_target_bank_cup_bank_up
+  dropTargetMugCheck_timer:
+    direction: up
+    start_value: 0
+    end_value: 11
+    tick_interval: 100ms
+    debug: true
+    control_events:
+      - action: restart
+        event: drop_target_bank_mug_bank_down
+      - action: stop
+        event: drop_target_bank_mug_bank_up
+
+###############################################################################################
+#                                     SHOTS                                                   #
+###############################################################################################
+
+shots: # this defines the shot...
+  knock_out: # knockout as being started by...
+    switch:   s_midRight # hitting the right stand up target
+  shot_pop1:
+    switch: s_popBumper_1
+  shot_pop2:
+    switch: s_popBumper_2
+  shot_pop3:
+    switch: s_popBumper_3
+  shot_slingL:
+    switch: s_sling_L
+  shot_slingR:
+    switch: s_sling_R
+  shot_perdition:
+    switch: s_perdition_kicker
+  shot_inLaneL:
+    switch: s_inLane_L
+  shot_inLaneR:
+    switch: s_inLane_R
+  shot_outLaneL:
+    switch: s_outLane_L
+  shot_outLaneR:
+    switch: s_outLane_R
+  shot_star1:
+    switch: s_star_1
+  shot_star2:
+    switch: s_star_2
+  shot_star3:
+    switch: s_star_3
+
+shot_groups: # this shot group was made to give the ability to stop scoring on these switches upon a multiball fail
+  failedMB:
+    shots: shot_pop1, shot_pop2, shot_pop3, shot_slingL, shot_slingR, knock_out, shot_perdition, shot_inLaneL, shot_inLaneR, shot_outLaneL, shot_outLaneR, shot_star1, shot_star2, shot_star3
+    reset_events: balldevice_bd_trough_ball_count_changed{device.ball_devices.bd_trough.balls == 2}
+    enable_events: balldevice_bd_trough_ball_count_changed{device.ball_devices.bd_trough.balls == 2}
+    disable_events: eject_bd_perdition_kicker # posted by multiballFail Mode when a multiball is failed
+
+###############################################################################################
+#                                   BALL SAVES                                                #
+###############################################################################################
+
+ball_saves:
+  ballOut:
+    active_time: 10s
+    hurry_up_time: 3s
+    timer_start_events: balldevice_bd_trough_ejecting_ball
+    balls_to_save: 1
+    disable_events: s_trough2_active{s_shooter_lane_active}, mbFail, startMBPost
+
+###############################################################################################
+#                         _____ __                                                            #
+#                        | ___ \ |                                                            #
+#                        | |_/ / | __ _ _   _  ___ _ __ ___                                   #
+#                        |  __/| |/ _` | | | |/ _ \ '__/ __|                                  #
+#                        | |   | | (_| | |_| |  __/ |  \__ \                                  #
+#                        \_|   |_|\__,_|\__, |\___|_|  |___/                                  #
+#                                        __/ |                                                #
+#                                       |___/                                                 #
+###############################################################################################
+
+###############################################################################################
+#                                  COIL PLAYER                                                #
+###############################################################################################
+
+coil_player:  # this coil player controls the post that blocks entrance to the perdition lane
+  s_trough1_active{current_player.perditionBallSaveOn==0}: c_perdition_post_down # drop on any ball end or if...
+  startMBPost: c_perdition_post_down  # the perdition multiball is started
+  timer_perditionPost_timer_complete: c_perdition_post_up  # put the post back up after the ball has exited
+  timer_postBlockUp_timer_complete: c_perdition_post_up  # put the post back up to block the lane after a kick out
+  s_popBumper_3_active{current_player.perditionBallSaveOn==1}: c_perdition_post_up # raise post if pop bumper by perdition hit while MB just started
+  timer_postBlockDown_timer_complete{current_player.perdition_value==1}: c_perdition_post_down  # put the post down to unblock the lane
+  timer_postBlockDown_timer_complete{current_player.perdition_value==2}: c_perdition_post_down
+  mbReady: c_perdition_post_up # put the post up if the multiball is ready to keep the active ball out of the perdition lane
+  timer_failPostUp_timer_complete: c_perdition_post_up
+  advance_perdition{current_player.perdition_value==1}: c_perdition_post_down
+  advance_perdition{current_player.perdition_value==2}: c_perdition_post_down
+  resetCupAgain: c_dt_reset_CUP
+  resetMugAgain: c_dt_reset_MUG
+
+###############################################################################################
+#                                  SHOW PLAYER                                                #
+###############################################################################################
+
+show_player:
+  ball_save_ballOut_timer_start:
+    flash_color:
+      key: ballOut
+      speed: 2
+      show_tokens:
+        lights: l_shootAgain
+        color: white
+  ball_save_ballOut_hurry_up:
+    flash_color:
+      key: ballOut
+      speed: 4
+      show_tokens:
+        lights: l_shootAgain
+        color: white
+  ball_save_ballOut_disabled:
+    ballOut: stop
+  mbFail:
+    ballOut: stop
+  startMBPost:
+    ballOut: stop
+
+  mode_base_started:
+    base_lighting: play # start the base lighting on start of the mode
+  mode_base_started{current_player.dice_pips == 0}:
+    1_on: play
+  mode_base_started{current_player.dice_pips == 1}:
+    1_on: play
+  mode_base_started{current_player.dice_pips == 2}:
+    2_on: play
+  mode_base_started{current_player.dice_pips == 3}:
+    3_on: play
+  mode_base_started{current_player.dice_pips == 4}:
+    4_on: play
+  mode_base_started{current_player.dice_pips == 5}:
+    5_on: play
+  mode_base_started{current_player.dice_pips == 6}:
+    6_on: play
+  mode_base_started{current_player.dice_pips == 7}:
+    7_on: play
+
+  advance_lane{count==1 and current_player.flag == 0}: # these move the "dice" lights wth the spinner
+    1_on: play # plays the first show which turns on th elowermost light and turns..
+    7_on: stop # the special7 off by stopping this show
+  advance_lane{count==2}:
+    2_on: play
+    1_on: stop
+    1_only_on: stop
+  advance_lane{count==3}:
+    3_on: play
+    2_on: stop
+  advance_lane{count==4}:
+    4_on: play
+    3_on: stop
+  advance_lane{count==5}:
+    5_on: play
+    4_on: stop
+  advance_lane{count==6}:
+    6_on: play
+    5_on: stop
+  advance_lane{count==7}:
+    7_on: play
+    6_on: stop
+  advance_lane{count==1 and current_player.flag > 0}:
+    1_only_on: play
+
+  bank_done{count==1}:  # if bank_done is posted and the count value is 1 then run the show 1000_on
+    1000_on: play
+  bank_done{count==2}:
+    1000_on: stop
+    2000_on: play
+  bank_done{count==3}:
+    2000_on: stop
+    3000_on: play
+  bank_done{count==4}:
+    3000_on: stop
+    4000_on: play
+  bank_done{count==5}:
+    4000_on: stop
+    5000_on: play
+  bank_done{count==6}:
+    5000_on: stop
+    6000_on: play
+  bank_done{count==7}:
+    6000_on: stop
+    7000_on: play
+  bank_done{count==8}:
+    7000_on: stop
+    8000_on: play
+  bank_done{count==9}:
+    8000_on: stop
+    9000_on: play
+  bank_done{count==10}:
+    9000_on: stop
+    10000_on: play
+
+  special7Go:
+    special7Flash:
+      speed: 2
+  timer_special7HurryUp_timer_started:
+    special7Flash:
+      speed: 4
+  special7End7:
+    special7Flash: stop
+    7_on: play
+  special7End:
+    special7Flash: stop
+    7_on: stop
+  sevens:
+    special7Flash: stop
+    7_on: play
+
+  timer_perdMB_timer_started:
+    hurryUpMB:
+      speed: 1
+  timer_perdMB_timer_complete:
+    hurryUpMB: stop
+
+
+###############################################################################################
+#                               VARIABLE PLAYER                                               #
+###############################################################################################
+
+variable_player:  #_hit is for shots and _active is for switches
+  bonus:
+    int: 1
+    action: set
+  shot_pop1_hit:
+    score: 100
+  shot_pop2_hit:
+    score: 100
+  shot_pop3_hit:
+    score: 100
+  s_dt_C_active:
+    score: 100
+  s_dt_U_active:
+    score: 100
+  s_dt_P_active:
+    score: 100
+  s_dt_M_active:
+    score: 100
+  s_dt_U2_active:
+    score: 100
+  s_dt_G_active:
+    score: 100
+  bank_done: # if the bank is raised...
+    contracts: 1 # increment the counter contracts by one
+  mode_base_started: # when the mode starts...
+    contracts:
+      int: 0 # put 0...
+      action: set # into contracts
+  shot_perdition_hit:
+    score: 100
+  s_dtSling_L_active:
+    score: 10
+  s_dtSling_R_active:
+    score: 10
+  shot_slingL_hit:
+    score: 10
+  shot_slingR_hit:
+    score: 10
+  s_spinner_active: # if the spinner switch is active...
+    spinner_rotations: 1 # add one to the player variable spinner_rotations and..
+    score: 10 # score 10 points per spinner spin
+  advance_lane{count<8}: # if the advance_lane counter is less than 7..
+    dice_pips: 1 #advance the player variable dice_pips by one so that it is not "7"
+  advance_lane{count==1}: # if the advance_lane counter is 7 then set the..
+    dice_pips: # player variable dice_pips to...
+      int: 1 # equal 7
+      action: set
+  s_kicker_active:  # {current_player.kickerDebounce == 0}:
+    score: (100 + (100 * current_player.perdition_value))  #+(100*perdition_value)
+  timer_score_motor_500_timer_tick: # must be set to this to not miss the first 100 if not on the first ball (ie score 400)
+    score: 100
+  timer_score_motor_50_timer_tick:
+    score: 10
+  player_added:
+    can_play: 1
+  pay1000:
+    score: 1000
+  pay100:
+    score: 100
+  special7Go:
+    score: 1000
+    flag:
+      int: 1
+      action: set
+  special7End:
+    flag:
+      int: 0
+      action: set
+  special7End7:
+    flag:
+      int: 0
+      action: set
+  sevens:
+    score: 7000
+    flag:
+      int: 0
+      action: set
+  startMBPost:
+    perdition_value:
+      int: 0
+      action: set
+    advance_perdition_value:
+      int: 0
+      action: set
+  multiballFail:
+    perdition_value:
+      int: 0
+      action: set
+    advance_perdition_value:
+      int: 0
+      action: set
+  timer_perdMB_timer_started:
+    perditionBallSaveOn:
+      int: 1
+      action: set
+  timer_perdMB_timer_complete:
+    perditionBallSaveOn:
+      int: 0
+      action: set
+
+###############################################################################################
+#                                 SOUND PLAYER                                                #
+###############################################################################################
+
+sound_player:
+  mode_base_started: # when the mode starts...
+    poolCupHeadBase: # select a song from the pool..
+      loops: -1 # and loop it indefinitely
+  tilt:
+    poolCupHeadBase:
+      action: stop
+  mode_base_will_stop: # when ball drains and no ball save is available # ball_drain{game.balls_in_play==1} : # when the ball drains...
+    poolCupHeadBase:
+      action: stop # stop playing the music
+  startBonusPayOut:
+      poolCupHeadBase:
+        action: stop # stop playing the music
+  ball_drain: drainHit
+  shot_inLaneL_hit: inLanes
+  shot_inLaneR_hit: inLanes
+  shot_outLaneL_hit: outLanes
+  shot_outLaneR_hit: outLanes
+  bank_done{count==1}: soul1
+  bank_done{count==2}: soul2
+  bank_done{count==3}: soul3
+  bank_done{count==4}: soul4
+  bank_done{count==5}: soul5
+  bank_done{count==6}: soul6
+  bank_done{count==7}: soul7
+  bank_done{count==8}: soul8
+  bank_done{count==9}: soul9
+  bank_done{count==10}: soul10
+  mode_dashLit_started: dashLitStarted
+  special7Go: roll7
+  advance_lane: spin
+  knock_out_hit: knockOut
+  sw_dtSw_active: dropTarget
+  s_kicker_active: kicker
+  s_dtSling_L_active: dtSling
+  s_dtSling_R_active: dtSling
+  shot_star1_hit: stars
+  shot_star2_hit: stars
+  shot_star3_hit: stars
+  player_added.1:
+    stars:
+      priority: 600
+  sevens: specialAward
+  s_shooter_lane_active: ballRelease
+  s_shooter_lane_inactive: plunger
+
+###############################################################################################
+#                                 SLIDE PLAYER                                                #
+###############################################################################################
+
+slide_player:
+  _overwrite: true
+  mode_base_started: # when the game starts play these slides
+    score_slide:
+      target: lower
+    topper_slide:
+      target: upper
+
+  start_boss: # when the event player just below posts "start_boss" play the "boss_slide"
+    boss_slide:
+      target: middle
+
+###############################################################################################
+#                                 EVENT PLAYER                                                #
+###############################################################################################
+
+event_player: # this event player looks for the x_play event that is posted by the sound config
+  beppi_play: # if the sound pool randomized chose to play beppi's song it posts "beppi_play"
+    start_boss: # when "beppi_play" is posted this player posts "start_boss" with the...
+      bossname: beppi # kwarg pair of bossname = beppi, the boss slide has a widget that sees this
+  cagney_play:        # and will use that to choose to play the beppi video
+    start_boss:
+      bossname: cagney
+  calla_play:
+    start_boss:
+      bossname: calla
+  capt_play:
+    start_boss:
+      bossname: capt
+  hilda_play:
+    start_boss:
+      bossname: hilda
+  ribbi_play:
+    start_boss:
+      bossname: ribbi
+  robot_play:
+    start_boss:
+      bossname: robot
+  root_play:
+    start_boss:
+      bossname: root
+  train_play:
+    start_boss:
+      bossname: train
+  wally_play:
+    start_boss:
+      bossname: wally
+
+  slide_boss_slide_active{current_player.number == 1}: player_up_1 # this combines the boss slide being played and player 1 active to play a player 1 up slide
+  slide_boss_slide_active{current_player.number == 2}: player_up_2
+  advance_perdition{count==1}: perd1 # defines first entry into perdition as perd1 this is needed...
+  advance_perdition{count==2}: perd2 # because mpf doesn't seem to be able to accept two arguments...
+  advance_perdition{count==3}: perd3 # with {}'s in them
+  perd1{current_player.number == 1}: cp1 # combines perdition entry 1 with player 1 to play CH's widgets
+  perd2{current_player.number == 1}: cp2
+  perd3{current_player.number == 1}: cp3
+  perd1{current_player.number == 2}: mp1 # combines perdition entry 1 with player 2 to play MM's widgets
+  perd2{current_player.number == 2}: mp2
+  perd3{current_player.number == 2}: mp3
+  s_midRight_active: knockout # the knockout mode stopsmidRight from triggering the slide so this is needed
+
+  slide_score_slide_active{players[0].score == 0}:
+    - zeroScores #if player 1 is up and the score is 0 then call zeroScores which sets the digital score reels to 00000
+    - rollOverClear
+  timer_dropTargetCupCheck_timer_complete: resetCupAgain #this will reset the CUP dt's if not raised on the first try
+  timer_dropTargetMugCheck_timer_complete: resetMugAgain
+  timer_spinner_timer_complete{current_player.dice_pips==7 and current_player.flag == 0}: special7Go # if the player rolls a 7, post special7Go
+  timer_special7HurryUp_timer_complete{current_player.dice_pips==7}: special7End7 # show that the timer is complete with 7
+  timer_special7HurryUp_timer_complete{current_player.dice_pips!=7}: special7End # show that the timer is complete not 7
+  timer_spinner_timer_complete{current_player.dice_pips==7 and current_player.flag > 0}: sevens # post sevens to show that 7000 has been collected
+
+###############################################################################################
+#                                       SLIDES                                                #
+###############################################################################################
+
+slides:
+   boss_slide:  # this boss slide playes the videos of the various bosses in the background
+     widgets:                        # this list of widgets will...
+     - widget: video_boss_(bossname) # look for the kwarg bossname and use that to play the video.
+     - widget: C_widget              # These will play the widgets for in play animations,
+     - widget: cUp_widget            # widgets are used because only one slide can play at a time...
+     - widget: P_widget              # and slides must have opacity to be displayed so...
+     - widget: M_widget              # you can't play a slide over a slide and expect the slide...
+     - widget: mUg_widget            # that is behind to show through the transparten areas...
+     - widget: G_widget              # of the overlying slide.  For that reason widgets are used...
+     - widget: S_widget              # because they are put on slides which already have an opacity...
+     - widget: O_widget              # of 1 so the widget can be opaque where there are graphics...
+     - widget: U_widget              # to be displayed but transparent where there are not graphics...
+     - widget: L_widget              # so the underlying slide can show through
+     - widget: dash_widget
+     - widget: contract1_widget
+     - widget: contract2_widget
+     - widget: contract3_widget
+     - widget: contract4_widget
+     - widget: contract5_widget
+     - widget: contract6_widget
+     - widget: contract7_widget
+     - widget: contract8_widget
+     - widget: contract9_widget
+     - widget: contract10_widget
+     - widget: ch_perdition1_widget
+     - widget: ch_perdition2_widget
+     - widget: ch_perdition3_widget
+     - widget: mm_perdition1_widget
+     - widget: mm_perdition2_widget
+     - widget: mm_perdition3_widget
+     - widget: knockout_widget
+
+   score_slide:                   # NOTE a slide must have a widget assigned here to be able to play that widget
+     widgets:
+     - widget: background_widget
+     - widget: reel_1_1_widget
+     - widget: reel_1_10_widget
+     - widget: reel_1_100_widget
+     - widget: reel_1_1k_widget
+     - widget: reel_1_10k_widget
+     - widget: reel_1_100k_widget
+     - widget: reel_2_1_widget
+     - widget: reel_2_10_widget
+     - widget: reel_2_100_widget
+     - widget: reel_2_1k_widget
+     - widget: reel_2_10k_widget
+     - widget: reel_2_100k_widget
+     - widget: figure_1_widget
+     - widget: figure_2_widget
+     - widget: score_mask_widget
+     - widget: figure_1_active_widget
+     - widget: figure_2_active_widget
+     - widget: ball_in_play_widget
+     - widget: playerAddedBackground_widget
+
+
+###############################################################################################
+#                                     WIDGETS                                                 #
+###############################################################################################
+
+widgets: # these are the widgets that get displayed on the boss_slide
+  video_boss_beppi: # if the kwarg "beppi" has been passed as the "bossname" then this wiget is played
+    - type: video # it is of the type video...
+      video: beppi # and the video name is "beppi" and it will...
+      end_behavior: loop # loop continuously with a...
+      z: 10 # z value of 10 which determines where it lies in the stack of widgets, bigger z's cover smaller z's
+  video_boss_cagney:
+    - type: video
+      video: cagney
+      end_behavior: loop
+      z: 10
+  video_boss_calla:
+    - type: video
+      video: calla
+      end_behavior: loop
+      z: 10
+  video_boss_capt:
+    - type: video
+      video: capt
+      end_behavior: loop
+      z: 10
+  video_boss_hilda:
+    - type: video
+      video: hilda
+      end_behavior: loop
+      z: 10
+  video_boss_ribbi:
+    - type: video
+      video: ribbi
+      end_behavior: loop
+      z: 10
+  video_boss_robot:
+    - type: video
+      video: robot
+      end_behavior: loop
+      z: 10
+  video_boss_root:
+    - type: video
+      video: root
+      end_behavior: loop
+      z: 10
+  video_boss_train:
+    - type: video
+      video: train
+      end_behavior: loop
+      z: 10
+  video_boss_wally:
+    - type: video
+      video: wally
+      end_behavior: loop
+      z: 10
+
+  ch_perdition1_widget: # these show the perdition cards on the main display
+    - type: image
+      image: ch_perdition1_image
+      opacity: 0
+      z: 90
+      animations:
+        cp1: contract_animation
+  ch_perdition2_widget:
+    - type: image
+      image: ch_perdition2_image
+      opacity: 0
+      z: 90
+      animations:
+        cp2: contract_animation
+  ch_perdition3_widget:
+    - type: image
+      image: ch_perdition3_image
+      opacity: 0
+      z: 90
+      animations:
+        cp3: contract_animation
+  mm_perdition1_widget:
+    - type: image
+      image: mm_perdition1_image
+      opacity: 0
+      z: 90
+      animations:
+        mp1: contract_animation
+  mm_perdition2_widget:
+    - type: image
+      image: mm_perdition2_image
+      opacity: 0
+      z: 90
+      animations:
+        mp2: contract_animation
+  mm_perdition3_widget:
+    - type: image
+      image: mm_perdition3_image
+      opacity: 0
+      z: 90
+      animations:
+        mp3: contract_animation
+
+  player_1_widget: # widget for the boss slide that will display the player up image
+    - type: text
+      text: PLAYER 1 UP!
+      font_name: Aafia
+      font_size: 100
+      color: blue
+      z: 80
+      animations:
+        player_up_1: player_up_animation
+        s_shooter_lane_active: remove_animation
+  player_2_widget:
+    - type: text
+      text: PLAYER 2 UP!
+      font_name: Aafia
+      font_size: 100
+      color: blue
+      z: 80
+      animations:
+        player_up_2: player_up_animation
+        s_shooter_lane_active: remove_animation
+
+  contract1_widget: # this contract widget will...
+    - type: image # display an image which is...
+      image: contract1_image # the "contract1_image" with a...
+      z: 90 # fairly large z value so that it covers lower z value widgets
+      opacity: 0 # it starts with an opacity of 0 because it is centered on the screen and otherwise would be seen
+      animations: # it has a 'named animation' called...
+        contract1_play: contract_animation #  "contract_animation" that will play when "contract1_play" is posted
+  contract2_widget:
+    - type: image
+      image: contract2_image
+      z: 90
+      opacity: 0
+      animations:
+        contract2_play: contract_animation
+  contract3_widget:
+    - type: image
+      image: contract3_image
+      z: 90
+      opacity: 0
+      animations:
+        contract3_play: contract_animation
+  contract4_widget:
+    - type: image
+      image: contract4_image
+      z: 90
+      opacity: 0
+      animations:
+        contract4_play: contract_animation
+  contract5_widget:
+    - type: image
+      image: contract5_image
+      z: 90
+      opacity: 0
+      animations:
+        contract5_play: contract_animation
+  contract6_widget:
+    - type: image
+      image: contract6_image
+      z: 90
+      opacity: 0
+      animations:
+        contract6_play: contract_animation
+  contract7_widget:
+    - type: image
+      image: contract7_image
+      z: 90
+      opacity: 0
+      animations:
+        contract7_play: contract_animation
+  contract8_widget:
+    - type: image
+      image: contract8_image
+      z: 90
+      opacity: 0
+      animations:
+        contract8_play: contract_animation
+  contract9_widget:
+    - type: image
+      image: contract9_image
+      z: 90
+      opacity: 0
+      animations:
+        contract9_play: contract_animation
+  contract10_widget:
+    - type: image
+      image: contract10_image
+      z: 90
+      opacity: 0
+      animations:
+        contract10_play: contract_animation
+
+  C_widget: # these widgets are of the type...
+    - type: image # image with the image set to...
+      image: C_image # one of the drop targets with a...
+      z: 50 # intermediate z value with the..
+      anchor_y: top # top set as the anchor for referencing the animation and the...
+      y: 0 # y (top) is set to 0 so that it is off of the bottom of the screen. Does not need opacity of 0 because of this.
+      animations: # a "named animation" called...
+        s_dt_C_active: cupmug # "cupmug" will be played when the "C" drop target switch is activated
+  cUp_widget:
+    - type: image
+      image: cUp_image
+      z: 50
+      anchor_y: top
+      y: 0
+      animations:
+        s_dt_U_active: cupmug
+  P_widget:
+    - type: image
+      image: P_image
+      z: 50
+      anchor_y: top
+      y: 0
+      animations:
+        s_dt_P_active: cupmug
+  M_widget:
+    - type: image
+      image: M_image
+      z: 50
+      anchor_y: top
+      y: 0
+      animations:
+        s_dt_M_active: cupmug
+  mUg_widget:
+    - type: image
+      image: mUg_image
+      z: 50
+      anchor_y: top
+      y: 0
+      animations:
+        s_dt_U2_active: cupmug
+  G_widget:
+    - type: image
+      image: G_image
+      z: 50
+      anchor_y: top
+      y: 0
+      animations:
+        s_dt_G_active: cupmug
+
+  S_widget: # This series of widgets are for the upper SOUL lanes
+    - type: image
+      image: S_image
+      z: 50 # an intermediate z value to overlay the video but not contracts
+      opacity: 0 # starts with an opacity of 0 because it is in the center of the screen and would be seen otherwise
+      animations: # a "named animation" called...
+        s_soul_S_active: soul_animation # "soul_animtion" will be played when the S switch is active
+  O_widget:
+    - type: image
+      image: O_image
+      z: 50
+      opacity: 0
+      animations:
+        s_soul_O_active: soul_animation
+  U_widget:
+    - type: image
+      image: soUl_image
+      z: 50
+      opacity: 0
+      animations:
+        s_soul_U_active: soul_animation
+  L_widget:
+    - type: image
+      image: L_image
+      z: 50
+      opacity: 0
+      animations:
+        s_soul_L_active: soul_animation
+
+  dash_widget: # plays the dash slide
+    - type: image
+      image: dash_image
+      anchor_x: right # has a right anchor with a...
+      x: 0 # x (right) value of 0 so it sits off screen to the left of the video,  Does not need opacity of 0 because of this
+      z: 100 # has a very high z value so it will cover most any other widget
+      animations: # it has one animation called...
+        s_dash_L_active: dasher # "dasher" which playes when either the left Dash saucer or...
+        s_dash_R_active: dasher # the right Dash saucer is filled
+
+  knockout_widget: # playes the knockout image set when needed
+    - type: image
+      image: knockout_image
+      z: 90
+      fps: 30
+      opacity: 0
+      animations:
+        knockout: contract_animation # won't trigger with knockout switch by itself
+
+  background_widget: # this is the background image for the score slide
+    - type: image
+      image: score_image
+      z: 10
+
+  reel_1_1_widget: # these are the reel widgets for the score slide
+   - type: image
+     image: reel_0_image # this is a fixed 0 for the ones reel since the game can't score less than 10 points
+     anchor_x: left
+     anchor_y: bottom
+     x: 460
+     y: 115
+     z: 100
+  reel_1_10_widget:
+   - type: image
+     image: reel14_image # this is the zip file image with all of the reel psotitions and transitions on it
+     auto_play: false
+     start_frame: 0
+     anchor_x: left
+     anchor_y: bottom
+     fps: 100
+     x: 400
+     y: 115
+     z: 100
+     animations:
+       score_reel_player_score_player1: # uses player 1's score to set the...
+         - property: end_frame # end frame to...
+           value: (5) #(3_frame) # the value of the 10's frame
+           duration: 0 # set's it immediately
+  reel_1_100_widget:
+   - type: image
+     image: reel13_image
+     auto_play: false
+     start_frame: 0
+     anchor_x: left
+     anchor_y: bottom
+     fps: 100
+     x: 340
+     y: 115
+     z: 100
+     animations:
+       score_reel_player_score_player1:
+         - property: end_frame
+           value: (4)
+           duration: 0
+  reel_1_1k_widget:
+   - type: image
+     image: reel12_image
+     auto_play: false
+     start_frame: 0
+     anchor_x: left
+     anchor_y: bottom
+     fps: 100
+     x: 280
+     y: 115
+     z: 100
+     animations:
+       score_reel_player_score_player1:
+         - property: end_frame
+           value: (3)
+           duration: 0
+  reel_1_10k_widget:
+   - type: image
+     image: reel11_image
+     auto_play: false
+     start_frame: 0
+     anchor_x: left
+     anchor_y: bottom
+     fps: 100
+     x: 220
+     y: 115
+     z: 100
+     animations:
+       score_reel_player_score_player1:
+         - property: end_frame
+           value: (2)
+           duration: 0
+  reel_1_100k_widget:
+   - type: image
+     image: reel10_image
+     auto_play: false
+     start_frame: 0
+     anchor_x: left
+     anchor_y: bottom
+     fps: 100
+     x: 260 #220
+     y: 65
+     z: 100
+     animations:
+       score_reel_player_score_player1:
+         - property: end_frame
+           value: (1)
+           duration: 0
+
+  reel_2_1_widget:
+   - type: image
+     image: reel_0_image
+     anchor_x: left
+     anchor_y: bottom
+     x: 990
+     y: 115
+     z: 100
+  reel_2_10_widget:
+   - type: image
+     image: reel24_image
+     auto_play: false
+     start_frame: 0
+     anchor_x: left
+     anchor_y: bottom
+     fps: 100
+     x: 930
+     y: 115
+     z: 100
+     animations:
+       score_reel_player_score_player2:
+         - property: end_frame
+           value: (5)
+           duration: 0
+  reel_2_100_widget:
+   - type: image
+     image: reel23_image
+     auto_play: false
+     start_frame: 0
+     anchor_x: left
+     anchor_y: bottom
+     fps: 100
+     x: 870
+     y: 115
+     z: 100
+     animations:
+       score_reel_player_score_player2:
+         - property: end_frame
+           value: (4)
+           duration: 0
+  reel_2_1k_widget:
+   - type: image
+     image: reel22_image
+     auto_play: false
+     start_frame: 0
+     anchor_x: left
+     anchor_y: bottom
+     fps: 100
+     x: 810
+     y: 115
+     z: 100
+     animations:
+       score_reel_player_score_player2:
+         - property: end_frame
+           value: (3)
+           duration: 0
+  reel_2_10k_widget:
+   - type: image
+     image: reel21_image
+     auto_play: false
+     start_frame: 0
+     anchor_x: left
+     anchor_y: bottom
+     fps: 100
+     x: 750
+     y: 115
+     z: 100
+     animations:
+       score_reel_player_score_player2:
+         - property: end_frame
+           value: (2)
+           duration: 0
+  reel_2_100k_widget:
+   - type: image
+     image: reel20_image
+     auto_play: false
+     start_frame: 0
+     anchor_x: left
+     anchor_y: bottom
+     fps: 100
+     x: 790 #750
+     y: 65
+     z: 100
+     animations:
+       score_reel_player_score_player2:
+         - property: end_frame
+           value: (1)
+           duration: 0
+
+  figure_1_widget: # this widget is for the cuphead static image
+   - type: image
+     image: small_cuphead_image
+     anchor_x: left
+     anchor_y: bottom
+     x: 50
+     y: 50
+     z: 80
+     animations:
+       add_player_1: player_up_animation # start with the mode beginning
+       player_up_1: remove_animation # shut down with player 1 starting
+       player_turn_ended: player_up_animation # play again when the player 1 turn ends
+       slide_score_slide_GameOver_active: player_up_animation
+  figure_1_active_widget: # this is for the animated cuphead
+   - type: image
+     image: small_ch_image
+     anchor_x: left
+     anchor_y: bottom
+     opacity: 0
+     auto_play: true
+     x: 50
+     y: 50
+     z: 80
+     fps: 30
+     animations:
+       player_up_1: player_up_animation # start up when player 1's turn begins
+       player_turn_ended: remove_animation # stop when the turn ends
+  figure_2_widget:
+   - type: image
+     image: small_mugman_image
+     anchor_x: left
+     anchor_y: bottom
+     x: 575
+     y: 50
+     z: 80
+     animations:
+       add_player_2: player_up_animation
+       player_up_2: remove_animation
+       player_turn_ended: player_up_animation # play again when the player 1 turn ends
+       slide_score_slide_GameOver_active: player_up_animation
+  figure_2_active_widget:
+   - type: image
+     image: small_mm_image
+     anchor_x: left
+     anchor_y: bottom
+     auto_play: true
+     x: 575
+     y: 50
+     z: 80
+     fps: 30
+     opacity: 0
+     animations:
+       player_up_2: player_up_animation
+       player_turn_ended: remove_animation
+
+  score_mask_widget: # this is a mask to make a black are behind the score reels and under the characters
+   - type: image
+     image: score_mask_image
+     anchor_x: left
+     anchor_y: bottom
+     x: 0
+     y: 0
+     z: 80 # covers the character base (z=80) and behind the score reels (z=100)
+     animations:
+       add_player_2: player_up_animation # start with the mode beginning
+  ball_in_play_widget:
+    - type: text
+      text: BALL IN PLAY (ball)
+      font_name: Aafia
+      font_size: 38
+      anchor_y: top
+      y: 330
+      z: 90
+      opacity: 1
+  Game_over_widget:
+    - type: text
+      text: GAME OVER
+      font_name: Aafia
+      font_size: 50
+      anchor_y: top
+      y: 330
+      z: 150
+      opacity: 1
+
+###############################################################################################
+#                                   ANIMATIONS                                                #
+###############################################################################################
+
+animations: # these are the named animaitons for the base slide
+  cupmug: # this is the animation for the drop targets
+  - property: y # they start below the video slide and have their tops set at 0, just below the visible screen
+    value: 450 # this rises the widget up to a value of 450 [(0,0) is left lower corner] over...
+    duration: .1s # .1 seconds
+  - property: y # this will keep the y value at...
+    value: 0 # 0 with the...
+    relative: true # "relative" set to true so y stays at 450 for...
+    duration: .75s # .75 seconds
+  - property: y # the y is then...
+    value: 0 # dropped to 0 over...
+    duration: .1s # .1 seconds
+
+  soul_animation: # this is the animation for the SOUL top lanes
+  - property: opacity # the opacity starts at 0 so this makes the opacity...
+    value: 1 # 1 (solid) over...
+    duration: .5s # .5 seconds
+  - property: opacity # the opacity...
+    value: 0 # stays at 1...
+    relative: true # because "relative" is set to true for...
+    duration: .1s # .1 seconds
+  - property: opacity # the opacity then...
+    value: 0 # fades to 0 over...
+    duration: .5s # .5 seconds
+
+  contract_animation: # this is the animation for the Soul Contracts
+  - property: opacity # the opacity starts at 0 so this makes the opacity...
+    value: 1 # 1 (solid) over...
+    duration: .5s # .5 seconds
+  - property: opacity # the opacity...
+    value: 0 # stays at 1...
+    relative: true # because "relative" is set to true for...
+    duration: 1s # .1 seconds
+  - property: opacity # the opacity then...
+    value: 0 # fades to 0 over...
+    duration: .5 # .5 seconds
+
+  dasher: # this is the animation for the Dash saucers
+  - property: x # the right side of the widget is the reference edge so the widget...
+    value: 1080 # will sprint across the screen to the right edge (1080) over...
+    duration: .25s # a period of .25 seconds
+  - property: x # it stays there because the change...
+    value: 0 # in x is zero..
+    relative: true # relative to it's current position for a total of...
+    duration: .75s # .75 seconds
+  - property: x # the right edge then gets moved over...
+    value: 2160 # to double 1080 (2160) so the widget sprints right off screen over...
+    duration: .25s # .25 seconds
+  - property: opacity # because we need to get the widget back to the left we set the opacity...
+    value: 0 # to zero over...
+    duration: .1s # .1 seconds and then
+  - property: x #  slide the hidden widget back to off screen left which...
+    value: 0 # is and x of zero over...
+    duration: .1s # .1 seconds and then...
+  - property: opacity # the opacity is set...
+    value: 1 # back to solid (1) over...
+    duration: .1s # .1 seconds
+
+  player_up_animation: # general animation for showing a widget
+  - property: opacity
+    value: 1
+    duration: .1 sec
+
+  remove_animation: # general animation for hiding a widget
+  - property: opacity
+    value: 0
+    duration: .1s
+
+  flare_animation:
+  - property: opacity
+    value: 1
+    duration: 500ms
+  - property: opacity
+    value: 0
+
+
+###############################################################################################
+#                                     IMAGES                                                  #
+###############################################################################################
+
+images: # all images used in widgets must be defined here, note that
+  C_image:
+    file: C.png # they can be pngs with transparent backgrouds or...
+  cUp_image:
+    file: cUp.png
+  P_image:
+    file: P.png
+  M_image:
+    file: M.png
+  mUg_image:
+    file: mUg.png
+  G_image:
+    file: G.png
+  S_image:
+    file: S.png
+  O_image:
+    file: O.png
+  soUl_image:
+    file: soUl.png
+  L_image:
+    file: L.png
+  topper:
+    file: CupheadTopper.png
+  dash_image:
+    file: dash.png
+  contract1_image:
+    file: contract1.png
+  contract2_image:
+    file: contract2.png
+  contract3_image:
+    file: contract3.png
+  contract4_image:
+    file: contract4.png
+  contract5_image:
+    file: contract5.png
+  contract6_image:
+    file: contract6.png
+  contract7_image:
+    file: contract7.png
+  contract8_image:
+    file: contract8.png
+  contract9_image:
+    file: contract9.png
+  contract10_image:
+    file: contract10.png
+  mugman_up_image:
+    file: mugman.zip          # zip files with animation sequences.  MPF will unpack these
+  cuphead_up_image:           # zipped folders and play the sequence of pngs in order from
+    file: cuphead.zip         # first to last.  There must not be any files that are not
+  knockout_image:             # images in the folder so you cannot use files zipped on a
+    file: knockout.zip        # mac and you cannot zip a folder because that will put the
+  ch_perdition1_image:        # folder in the zip.  You must select all of the png images
+    file: ch_perdition1.png   # and use 7 zip to zip only them.
+  ch_perdition2_image:
+    file: ch_perdition2.png
+  ch_perdition3_image:
+    file: ch_perdition3.png
+  mm_perdition1_image:
+    file: mm_perdition1.png
+  mm_perdition2_image:
+    file: mm_perdition2.png
+  mm_perdition3_image:
+    file: mm_perdition3.png
+
+  reel10_image:
+    file: reel10.zip
+    frame_persist: true
+  reel11_image:
+    file: reel11.zip
+    frame_persist: true
+  reel12_image:
+    file: reel12.zip
+    frame_persist: true
+  reel13_image:
+    file: reel13.zip
+    frame_persist: true
+  reel14_image:
+    file: reel14.zip
+    frame_persist: true
+  reel20_image:
+    file: reel20.zip
+    frame_persist: true
+  reel21_image:
+    file: reel21.zip
+    frame_persist: true
+  reel22_image:
+    file: reel22.zip
+    frame_persist: true
+  reel23_image:
+    file: reel23.zip
+    frame_persist: true
+  reel24_image:
+    file: reel24.zip
+    frame_persist: true
+  reel_0_image:
+    file: reel0.png
+
+  small_ch_image:
+    file: cuphead_figure.zip
+  small_mm_image:
+    file: mugman_figure.zip
+  score_mask_image:
+    file: score_mask.png
+  small_cuphead_image:
+    file: small_cuphead.png
+  small_mugman_image:
+    file: small_mugman.png
+
+  player_1_added_image:
+    file: player_1_added.png
+  player_2_added_image:
+    file: player_2_added.png
+  red_backdrop:
+    file: red_backdrop.png
+  hs_base:
+    file: hs_base.png
+  playerAddedBackground_image:
+    file: playerAddedBackground.png
+
+###############################################################################################
+#                                     VIDEOS                                                  #
+###############################################################################################
+
+videos: # all videos must be defined by name
+  beppi: # name of video
+    file: beppi.mp4 # file for the video
+    height: 600 # set the aspect ration to the size of the screen
+    width: 1060
+  cagney:
+    file: cagney.mp4
+    height: 600
+    width: 1080
+  calla:
+    file: calla.mp4
+    height: 600
+    width: 1060
+  capt:
+    file: capt.mp4
+    height: 600
+    width: 1060
+  hilda:
+    file: hilda.mp4
+    height: 600
+    width: 1060
+  ribbi:
+    file: ribbi.mp4
+    height: 600
+    width: 1060
+  robot:
+    file: robot.mp4
+    height: 600
+    width: 1060
+  root:
+    file: root.mp4
+    height: 600
+    width: 1060
+  train:
+    file: train.mp4
+    height: 600
+    width: 1080
+  wally:
+    file: wally.mp4
+    height: 600
+    width: 1060

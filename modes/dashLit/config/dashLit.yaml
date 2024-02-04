@@ -1,0 +1,64 @@
+#config_version=6
+
+# Mode to pay out 500 if the Dash lights are lit
+
+mode:
+  start_events: standUps_complete
+  stop_events: dash_complete
+  priority: 130
+
+shots:
+  dash_L:
+    switch: s_dash_L
+  dash_R:
+    switch: s_dash_R
+
+###############################################################################################
+#                                      PLAYERS                                                #
+###############################################################################################
+
+event_player:
+  dash_L_hit:
+    - dash_complete
+    - pay500
+  dash_R_hit:
+    - dash_complete
+    - pay500
+
+variable_player:
+  s_standUp_1_active:
+    score: 100
+  s_standUp_2_active:
+    score: 100
+  s_standUp_3_active:
+    score: 100
+
+show_player:
+  mode_dashLit_started:
+    dashOn:
+      show_tokens:
+        lights: dash
+    flash_green:
+      loops: 4
+      speed: 6
+      show_tokens:
+        lights: standUp
+  s_standUp_1_active:
+    su1:
+      loops: 1
+      speed: 6
+  s_standUp_2_active:
+   su2:
+      loops: 1
+      speed: 6
+  s_standUp_3_active:
+   su3:
+      loops: 1
+      speed: 6
+
+sound_player:
+  dash_L_hit: dashLit
+  dash_R_hit: dashLit
+  s_standUp_1_active: standUps
+  s_standUp_2_active: standUps
+  s_standUp_3_active: standUps

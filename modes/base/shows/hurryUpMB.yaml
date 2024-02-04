@@ -1,0 +1,10 @@
+#show_version=6
+
+
+- duration: 500ms
+  lights:
+    l_shootAgain: white
+
+- duration: 500ms
+  lights:
+    l_shootAgain: off

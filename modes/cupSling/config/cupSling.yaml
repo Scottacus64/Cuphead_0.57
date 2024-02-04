@@ -1,0 +1,44 @@
+#config_version=6
+
+# Mode for paying out 100 points for 10 seconds if the Mug DT's are dropped
+
+mode:
+  start_events: drop_target_bank_cup_bank_down
+  stop_events: timer_cupSlingHurryUp_timer_complete, ball_drain
+  priority: 160
+
+timers:
+  cupSling_timer:
+    direction: up
+    start_value: 0
+    end_value: 5
+    tick_interval: 1S
+    debug: true
+    control_events:
+      - action: start
+        event: mode_cupSling_started
+  cupSlingHurryUp_timer:
+    direction: up
+    start_value: 0
+    end_value: 5
+    tick_interval: 1S
+    debug: true
+    control_events:
+      - action: start
+        event: timer_cupSling_timer_complete
+
+###############################################################################################
+#                                     PLAYERS                                                 #
+###############################################################################################
+
+variable_player:
+  s_sling_L_active:
+    score:
+      int: 100
+      block: true
+
+show_player:
+  mode_cupSling_started: cupSlingOn
+  timer_cupSling_timer_complete:
+    cupSlingOn: stop
+    cupFlash: play

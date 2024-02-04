@@ -1,0 +1,9 @@
+#show_version=6
+#Cuphead StandUpsR mode lighting effects
+
+- duration: 1
+  lights:
+    l_standUp_3: green
+- duration: 1
+  lights:
+    l_standUp_3: off

@@ -1,0 +1,47 @@
+#config_version=6
+
+# Mode if out lanes are lit
+
+mode:
+  start_events: rightStar_complete
+  priority: 150
+  stop_events: resetLitOutLanes, mbFail
+
+shots:
+  outLaneL:
+    switch: s_outLane_L
+    show_tokens:
+      light: l_outLane_L
+    profile: outLanes
+  outLaneR:
+    switch: s_outLane_R
+    show_tokens:
+      light: l_outLane_R
+    profile: outLanes
+
+shot_groups:
+  outLanes:
+    shots: outLaneL, outLaneR
+    reset_events: resetLitOutLanes
+
+shot_profiles:
+  outLanes:  # the shot inlanes has two states
+    states:
+      - name: lit  # starts with lit with the lights turned...
+        show: outLaneOn
+      - name: unlit # and ends with unlit with the lights turned...
+        show: off #  off
+    loop: false # don't loop back to lit
+
+variable_player:
+    outLaneL_outLanes_unlit_hit:
+      score: 100
+    outLaneR_outLanes_unlit_hit:
+      score: 100
+    outLaneL_outLanes_lit_hit:
+      score: 1000
+    outLaneR_outLanes_lit_hit:
+      score: 1000
+
+event_player:
+    outLanes_complete: resetLitOutLanes

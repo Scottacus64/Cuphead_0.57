@@ -1,0 +1,68 @@
+#config_version=6
+
+mode:
+  start_events: knock_out_hit #starts when the knockout mid right roll oveer is hit
+  priority: 140
+  stop_events: timer_knockOutHurryUp_timer_complete, mbFail
+
+###############################################################################################
+#                                     TIMERS                                                  #
+###############################################################################################
+
+timers:
+  knockOut_timer:
+    direction: up
+    start_value: 0
+    end_value: 10
+    tick_interval: 1S
+    debug: true
+    control_events:
+      - action: start
+        event: mode_knockOut_started
+  knockOutHurryUp_timer:
+    direction: up
+    start_value: 0
+    end_value: 5
+    tick_interval: 1S
+    debug: true
+    control_events:
+      - action: start
+        event: timer_knockOut_timer_complete
+
+###############################################################################################
+#                                     SEQUENCES                                               #
+###############################################################################################
+
+sequences:
+  laneUp:
+    events:
+      - s_star_1_active
+      - s_star_2_active
+    events_when_complete: leftStars_complete
+    reset_on_complete: True
+  laneDown:
+    events:
+      - s_star_2_active
+      - s_star_1_active
+    events_when_complete: leftStars_complete
+    reset_on_complete: True
+  rightUpDown:
+    events:
+      - s_star_3_active
+    events_when_complete: rightStar_complete
+    reset_on_complete: True
+
+###############################################################################################
+#                                     PLAYERS                                                 #
+###############################################################################################
+
+show_player:
+  mode_knockOut_started: stars
+  timer_knockOut_timer_complete:
+    stars_flash: play
+    stars: stop
+
+event_player:
+  s_star_1_active: pay500
+  s_star_2_active: pay500
+  s_star_3_active: pay500

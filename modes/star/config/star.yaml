@@ -1,0 +1,13 @@
+#config_version=6
+
+mode: #either this mode or knockout are active to score 50 or 500 for a rollover
+  start_events:
+    - ball_started
+    - timer_knockOutHurryUp_timer_complete
+  priority: 120
+  stop_events: knock_out_hit, mbFail
+
+event_player:
+  s_star_1_active: pay50
+  s_star_2_active: pay50
+  s_star_3_active: pay50

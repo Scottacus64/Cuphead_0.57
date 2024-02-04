@@ -1,0 +1,6 @@
+#show_version=6
+
+- duration: 1
+  lights:
+    gi: FFFFFF%25
+    l_popBumper_2: white

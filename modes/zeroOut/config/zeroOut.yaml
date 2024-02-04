@@ -1,0 +1,7 @@
+#config_version=6
+
+mode: #attempt to zero out digital score reels
+  start_events:
+    - zeroScores # if zeroScores is posted call the custom code in ZeroOut to reset the score reels to 00000
+  priority: 120
+  code: zeroOut.ZeroOut

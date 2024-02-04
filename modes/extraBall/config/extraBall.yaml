@@ -1,0 +1,25 @@
+#config_version=6
+
+mode:
+  start_events: ball_starting # starts along side basae mode
+  priority: 190
+  stop_events: ball_ended
+
+show_player:
+  bank_done{count==5}: extraBallOn
+  soul5ebPost: extraBallOff
+
+sequences:
+  soul5EB:
+    events:
+      - bank_done{count==4}
+      - s_kicker_active
+    events_when_complete: soul5ebPost
+    reset_on_complete: True
+
+extra_balls:
+  soul5:
+    award_events: soul5ebPost
+
+sound_player:
+  soul5ebPost: extraBallAward

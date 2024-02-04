@@ -1,0 +1,38 @@
+#show_version=6
+#Cuphead left lane mode lighting effects
+
+- duration: 1
+  lights:
+    l_lane_L_1: on
+    l_special7: off
+
+- duration: 1
+  lights:
+    l_lane_L_2: on
+    l_lane_L_1: off
+
+- duration: 1
+  lights:
+    l_lane_L_3: on
+    l_lane_L_2: off
+
+- duration: 1
+  lights:
+    l_lane_L_4: on
+    l_lane_L_3: off
+
+- duration: 1
+  lights:
+    l_lane_L_5: on
+    l_lane_L_4: off
+
+- duration: 1
+  lights:
+    l_lane_L_6: on
+    l_lane_L_5: off
+
+
+- duration: 1
+  lights:
+    l_special7: on
+    l_lane_L_6: off

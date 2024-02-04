@@ -1,0 +1,249 @@
+#show_version=6
+
+# this display loop wii show the title slide ofr 3 seconds and then switch to a cut scene video for 20 seconds
+# all of this will loop continuously until a game is started
+- duration: 3s
+  slides:
+    title_slide:
+      target: middle
+    bottom_slide:
+      target: lower
+
+- duration: 1.5s
+  slides:
+    highScore1_slide:
+      target: middle
+
+- duration: 1.5s
+  slides:
+    highScore2_slide:
+      target: middle
+
+- duration: 1.5s
+  slides:
+    highScore3_slide:
+      target: middle
+
+- duration: 1.5s
+  slides:
+    highScore4_slide:
+      target: middle
+
+- duration: 1.5s
+  slides:
+    highScore5_slide:
+      target: middle
+
+- duration: 20s
+  slides:
+    a_beppi:
+      target: middle
+    score_slide_GameOver:
+      target: lower
+
+- duration: 3s
+  slides:
+    title_slide:
+      target: middle
+    bottom_slide:
+      target: lower
+
+- duration: 20s
+  slides:
+    a_cagney:
+      target: middle
+    score_slide_GameOver:
+      target: lower
+
+- duration: 3s
+  slides:
+    title_slide:
+      target: middle
+    bottom_slide:
+      target: lower
+
+- duration: 20s
+  slides:
+    a_calla:
+      target: middle
+    score_slide_GameOver:
+      target: lower
+
+- duration: 3s
+  slides:
+    title_slide:
+      target: middle
+    bottom_slide:
+      target: lower
+
+- duration: 3s
+  slides:
+    thank_you_slide1:
+      target: middle
+    bottom_slide:
+      target: lower
+
+- duration: 3s
+  slides:
+    thank_you_slide2:
+      target: middle
+    bottom_slide:
+      target: lower
+
+- duration: 3s
+  slides:
+    thank_you_slide3:
+      target: middle
+    bottom_slide:
+      target: lower
+
+- duration: 3s
+  slides:
+    thank_you_slide4:
+      target: middle
+    bottom_slide:
+      target: lower
+
+- duration: 20s
+  slides:
+    a_capt:
+      target: middle
+    score_slide_GameOver:
+      target: lower
+
+- duration: 3s
+  slides:
+    title_slide:
+      target: middle
+    bottom_slide:
+      target: lower
+
+- duration: 20s
+  slides:
+    a_hilda:
+      target: middle
+    score_slide_GameOver:
+      target: lower
+
+- duration: 3s
+  slides:
+    title_slide:
+      target: middle
+    bottom_slide:
+      target: lower
+
+- duration: 20s
+  slides:
+    a_ribbi:
+      target: middle
+    score_slide_GameOver:
+      target: lower
+
+- duration: 3s
+  slides:
+    title_slide:
+      target: middle
+    bottom_slide:
+      target: lower
+
+- duration: 1.5s
+  slides:
+    highScore1_slide:
+      target: middle
+
+- duration: 1.5s
+  slides:
+    highScore2_slide:
+      target: middle
+
+- duration: 1.5s
+  slides:
+    highScore3_slide:
+      target: middle
+
+- duration: 1.5s
+  slides:
+    highScore4_slide:
+      target: middle
+
+- duration: 1.5s
+  slides:
+    highScore5_slide:
+      target: middle
+
+- duration: 20s
+  slides:
+    a_robot:
+      target: middle
+    score_slide_GameOver:
+      target: lower
+
+- duration: 3s
+  slides:
+    title_slide:
+      target: middle
+    bottom_slide:
+      target: lower
+
+- duration: 20s
+  slides:
+    a_root:
+      target: middle
+    score_slide_GameOver:
+      target: lower
+
+- duration: 3s
+  slides:
+    title_slide:
+      target: middle
+    bottom_slide:
+      target: lower
+
+- duration: 20s
+  slides:
+    a_train:
+      target: middle
+    score_slide_GameOver:
+      target: lower
+
+- duration: 3s
+  slides:
+    title_slide:
+      target: middle
+    bottom_slide:
+      target: lower
+
+- duration: 3s
+  slides:
+    thank_you_slide1:
+      target: middle
+    bottom_slide:
+      target: lower
+
+- duration: 3s
+  slides:
+    thank_you_slide2:
+      target: middle
+    bottom_slide:
+      target: lower
+
+- duration: 3s
+  slides:
+    thank_you_slide3:
+      target: middle
+    bottom_slide:
+      target: lower
+
+- duration: 3s
+  slides:
+    thank_you_slide4:
+      target: middle
+    bottom_slide:
+      target: lower
+
+- duration: 20s
+  slides:
+    a_wally:
+      target: middle
+    score_slide_GameOver:
+      target: lower

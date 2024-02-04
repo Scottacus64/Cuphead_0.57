@@ -1,0 +1,8 @@
+#show_version=6
+- duration: 1
+  lights:
+    l_dash_L: off
+    l_dash_R: off
+    l_standUp_1: off
+    l_standUp_2: off
+    l_standUp_3: off

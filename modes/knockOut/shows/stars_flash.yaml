@@ -1,0 +1,12 @@
+#show_version=6
+
+- duration: 250ms
+  lights:
+    l_star_1: on
+    l_star_2: on
+    l_star_3: on
+- duration: 250ms
+  lights:
+    l_star_1: off
+    l_star_2: off
+    l_star_3: off

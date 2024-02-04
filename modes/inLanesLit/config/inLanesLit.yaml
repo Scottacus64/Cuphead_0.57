@@ -1,0 +1,42 @@
+#config_version=6
+
+# Mode for paying out 500 for lit inlanes
+
+mode:
+  start_events: leftStars_complete # if the left stars are lit start this mode
+  priority: 150
+  stop_events: resetLitInlanes, mbFail # end this mode when both lanes have been lit and hit
+
+shots:
+  inLaneL:
+    switch: s_inLane_L
+    show_tokens:
+      light: l_inLane_L
+    profile: inLanes
+  inLaneR:
+    switch: s_inLane_R
+    show_tokens:
+      light: l_inLane_R
+    profile: inLanes
+
+shot_groups:
+  inLanes:  # a shot group called inLanes that...
+    shots: inLaneL, inLaneR  # consists of the left and right inlanes that...
+    reset_events: resetLitInlanes  # resets when the mode is complete
+
+shot_profiles:
+  inLanes:  # the shot inlanes has two states
+    states:
+      - name: lit  # starts with lit with the lights turned...
+        show: on # on
+      - name: unlit # and ends with unlit with the lights turned...
+        show: off #  off
+    loop: false # don't loop back to lit
+
+event_player:
+  inLaneL_inLanes_unlit_hit: pay50
+  inLaneR_inLanes_unlit_hit: pay50
+  inLaneL_inLanes_lit_hit: pay500
+  inLaneR_inLanes_lit_hit: pay500
+  mode_bonusEndOfBall_started: resetLitInlanes
+  inLanes_complete: resetLitInlanes

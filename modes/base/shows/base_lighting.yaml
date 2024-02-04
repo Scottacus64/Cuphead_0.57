@@ -1,0 +1,9 @@
+#show_version=6
+#Cuphead base mode lighting effects
+
+- duration: 1
+  lights:
+    gi: FFFFFF%25
+    l_popBumper_1: white
+    l_popBumper_2: white
+    l_popBumper_3: white

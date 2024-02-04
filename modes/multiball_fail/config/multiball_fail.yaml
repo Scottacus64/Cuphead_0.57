@@ -1,0 +1,90 @@
+#config_version=6
+
+mode:
+  start_events: advance_perdition{count == 3}   # a mode that gets the machine ready to payout multiball if the devil bumper is hit
+  priority: 1000
+  use_wait_queue: true
+  stop_events: startMBPost, balldevice_bd_trough_ball_count_changed{device.ball_devices.bd_trough.balls == 2}   # end if mutiball is achieved or 2nd ball drained
+
+queue_relay_player:
+  ball_ending:     # if multiball has failed because of a ball drain prior to hitting the "devil bumper"...
+    post: eject_bd_perdition_kicker   # eject the captured ball and...
+    wait_for: balldevice_bd_trough_ball_count_changed{device.ball_devices.bd_trough.balls == 2 and bonusPayoutDone}    # wait for it to drain
+
+mode_settings:
+  bonus_entries:
+    - event: bonusPayout
+      score: 0
+      player_score_entry: current_player.contracts
+
+timers:
+#  failBonusCountDown:
+#    start_value: current_player.contracts # start with the current number of contracts collected and ...
+#    end_value: 0 # end at zero while ...
+#    direction: down # counting down at a ...
+#    tick_interval: 500ms # rate of once every half second
+#    debug: true
+#    control_events:
+#      - action: start # start when ...
+#        event: start_bonus_countdown # the mode begins and ...
+#      - action: stop # stop when ...
+#        event: bonusDone # the mode is done
+  failPostUp_timer:
+    direction: down
+    start_value: 2
+    end_value: 0
+    tick_interval: 500ms
+    debug: true
+    control_events:
+      - action: restart
+        event: multiballFail
+      - action: restart
+        event: clearLane.2
+
+###############################################################################################
+#                                      PLAYERS                                                #
+###############################################################################################
+
+event_player:
+  eject_bd_perdition_kicker :
+    - start_bonus_countdown
+    - mbFail
+  timer_failBonusCountDown-tick{current_player.contracts==0}: # if the current player's contract value is zero ...
+    - bonusDone # post the event bonusDone
+  timer_failBonusCountDown_complete: bonusDone
+  timer_failBonusCountDown_tick{current_player.contracts>0}: # if the current player's contract value is greater than zero ...
+    - bonusPayout # pay out and...
+    - light_done  # post the event light_done  mode_bonus_started: start_bonus_countdown
+  ball_ending: multiballFail
+  ball_drain: startBonusPayOut
+
+variable_player:
+  timer_failBonusCountDown_tick{current_player.contracts>0}:
+    contracts: -1
+    score: 1000 * (current_player.bonus_multiplier)
+  mbFail:
+    perdition_value:
+      int: 0
+      action: set
+    advance_perdition_value:
+      int: 0
+      action: set
+
+show_player:
+  light_done{current_player.contracts==9}: 10000_off
+  light_done{current_player.contracts==8}: 9000_off
+  light_done{current_player.contracts==7}: 8000_off
+  light_done{current_player.contracts==6}: 7000_off
+  light_done{current_player.contracts==5}: 6000_off
+  light_done{current_player.contracts==4}: 5000_off
+  light_done{current_player.contracts==3}: 4000_off
+  light_done{current_player.contracts==2}: 3000_off
+  light_done{current_player.contracts==1}: 2000_off
+  light_done{current_player.contracts==0}: 1000_off
+
+sound_player:
+  timer_failBonusCountDown_tick{current_player.bonus_multiplier==1}: bonusPayout
+  timer_failBonusCountDown_tick{current_player.bonus_multiplier==2}: bonusPayout2
+  timer_failBonusCountDown_tick{current_player.bonus_multiplier==3}: bonusPayout3
+  timer_failBonusCountDown_tick{current_player.bonus_multiplier==4}: bonusPayout4
+  eject_bd_perdition_kicker: perditionkicker

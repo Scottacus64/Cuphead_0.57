@@ -1,0 +1,62 @@
+#config_version=6
+
+tilt:
+  tilt_warning_switch_tag: tilt_warning
+  warnings_to_tilt: 3
+  reset_warnings_events: ball_started
+  settle_time: 5s
+  multiple_hit_window: 1500ms
+
+###############################################################################################
+#                                      SLIDES                                                 #
+###############################################################################################
+
+slides:
+  _overwrite: true   # this is important to overwrite the existing slides
+  tilt_warning_1:
+    widgets:
+      - type: text
+        text: YIKES!
+        font_name: Aafia
+        color: red
+        font_size: 100
+    expire: 1s
+  tilt_warning_2:
+    widgets:
+      - type: text
+        text: YOWZA!
+        font_name: Aafia
+        color: red
+        font_size: 100
+    expire: 1s
+  tilt:
+    widgets:
+      - type: text
+        text: TILT!
+        font_name: Aafia
+        color: red
+        font_size: 250
+    expire: 2s
+
+###############################################################################################
+#                                      PLAYERS                                                #
+###############################################################################################
+
+slide_player:
+  tilt_warning_1:
+    tilt_warning_1:
+      target: middle
+  tilt_warning_2:
+    tilt_warning_2:
+      target: middle
+  tilt:
+    tilt:
+      target: middle
+  tilt_clear:
+    tilt:
+      action: remove
+
+sound_player:
+  tilt_warning_1: perditionLock
+  tilt_warning_2: perditionLock
+  tilt: perditionkicker

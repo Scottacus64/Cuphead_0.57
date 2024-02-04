@@ -1,0 +1,308 @@
+#config_version=6
+
+hardware:
+    platform: opp # the playform is Open Pinball Platform
+    driverboards: gen2
+
+opp:
+    ports: /dev/ttyACM0, /dev/ttyACM1 # COM11, COM12 these are the COM ports of the Cobrapin board
+  #  chains:
+  #      0: /dev/ttyACM0 # COM11 the zero board is on COM 11 and the..
+  #      1: /dev/ttyACM1 # COM12 one board is on COM 12
+    debug: True
+
+###############################################################################################
+#                                    MODES                                                    #
+###############################################################################################
+
+modes: # for a mode to be seen by mpf it needs to be in this list otherwise it will be ignored
+  - base
+  - soulLanes
+  - bonusEndOfBall
+  - standUps
+  - dash
+  - dashLit
+  - knockOut
+  - inLanes
+  - inLanesLit
+  - outLanes
+  - outLanesLit
+  - cupSling
+  - mugSling
+  - perdition
+  - perdition_multiball
+  - perditionClear
+  - perditionFailClear
+  - multiball_fail
+  - tilt
+  - extraBall
+  - high_score
+  - star
+  - zeroOut
+
+###############################################################################################
+#                               POWER SUPPLY SETTINGS                                         #
+###############################################################################################
+
+psus:
+  default:
+    voltage: 35
+
+###############################################################################################
+#                                PLAYER VARIABLES                                             #
+###############################################################################################
+
+player_vars: # these are player variables that can be seen by all modes
+  bonus_multiplier: #used to keep track of what the current bonus multiplier is
+    value_type: int
+    initial_value: 1
+  contracts: # number of contracts collected
+    value_type: int
+    initial_value: 0
+  dice_pips: # keeps track of which dice light is lit
+    value_type: int
+    initial_value: 0
+  perdition_value:
+    value_type: int
+    initial_value: 0
+  can_play:
+    value_type: int
+    initial_value: 0
+  flag: # variable used with the dice roll to know if a seven has been rolled
+    value_type: int
+    initial_value: 0
+  perditionBallSaveOn: #variable to chack if perdition multiball ball save is active
+    value_type: int
+    initial_value: 0
+
+playfields:
+  playfield:
+    tags: default
+    default_source_device: bd_trough # bd_plunger
+#    enable_ball_search: true
+#    ball_search_timeout: 20s
+#    ball_search_wait_after_iteration: 10s
+#    ball_search_interval: 250ms
+
+config: # for a cleaner config file these have all been spit out to their own files
+  - keyboard.yaml
+  - hwSwitches.yaml
+  - hwLights.yaml
+  - hwCoils.yaml
+  - sound.yaml
+
+###############################################################################################
+#                                    WINDOW                                                   #
+###############################################################################################
+
+window: # defines the area of the TV monitor that can be used for the backbox display
+  width: 1080 # 540 #1080 # aspect ratio of the window ... set to 540 for small test window
+  height: 1300 #650 #1300 # ... set to 650 for small test window
+  title: CupheadWindow
+  resizable: true
+  fullscreen: false # does not take up the entire TV display and...
+  borderless: true # has no "Windows 10" boarder around it
+  exit_on_escape: true # lets you exit mpf and mpf-mc with hitting escape
+  top: 0
+  left: 0
+
+###############################################################################################
+#                                     DISPLAYS                                                #
+###############################################################################################
+
+displays: # VERY IMPORTANT these define three displays set into the "window"
+  upper:
+    width: 1080 # 1080 aspect ratios, all are full width
+    height: 350
+  middle:
+    width: 1080
+    height: 600
+  lower:
+    width: 1080
+    height: 350
+  window: # window itself must be included here so that the "layout" slide can be sent here
+    width: 1080
+    height: 1300
+
+###############################################################################################
+#                                       SLIDES                                                #
+###############################################################################################
+
+slides:
+  layout: # THIS IS THE MAIN SLIDE THAT DRIVES ALL OF CUPHEADS BACKBOX!!!!
+    widgets: # these widgets are the...
+      - type: display # displays that are used to project slides for the backbox onto
+        width: 1080 # aspect ration all are full width
+        height: 350
+        x: 0 # the display is set to the left of the window and the...
+        y: 1300 # very top of the window with the...
+        anchor_x: left # anchors set to the left...
+        anchor_y: top # and top
+        source_display: upper # the name of this display is UPPER
+        #...........................................................
+      - type: display
+        width: 1080
+        height: 600
+        x: 0 # set to far left
+        y: 950
+        anchor_x: left
+        anchor_y: top
+        source_display: middle
+        #...........................................................
+      - type: display
+        width: 1080
+        height: 350
+        x: 0 # set to far left
+        y: 350
+        anchor_x: left
+        anchor_y: top
+        source_display: lower
+      - widget: player_added_widget_2
+      - widget: player_added_widget_1
+
+###############################################################################################
+#                                      EVENTS                                                 #
+###############################################################################################
+
+event_player:
+  player_added{num==1}:
+    add_player_1:
+      priority: 510
+  player_added{num==2}:
+    add_player_2:
+      priority: 550
+<<<<<<< HEAD
+  request_to_start_game{s_trough2_active}:
+    okToStart:
+      priority: 550
+  request_to_add_player{s_trough2_active}:
+    okToAdd:
+      priority: 550
+=======
+>>>>>>> 133388c84db8f68aba2c98c724c20f75371a1da9
+
+###############################################################################################
+#                                      WIDGETS                                                #
+###############################################################################################
+
+widget_player:
+  add_player_1: player_added_widget_1
+  add_player_2: player_added_widget_2
+
+
+widgets:
+  player_added_widget_1:
+  - type: text
+    text: PLAYER 1 ADDED!
+    z: 110
+    color: F6BE28
+    font_name: Aafia
+    font_size: 90
+    anchor_y: bottom
+    y: 230
+    opacity: 0
+    animations:
+      add_player_1: contract_animation # this shows that animations declared in one mode are available in any mode
+      add_player_2: remove_animation
+
+  player_added_widget_2:
+  - type: text
+    text: PLAYER 2 ADDED!
+    z: 110
+    color: F6BE28
+    font_name: Aafia
+    font_size: 90
+    anchor_y: bottom
+    y: 230
+    opacity: 0
+    animations:
+      add_player_2: contract_animation # this shows that animations declared in one mode are available in any mode
+
+###############################################################################################
+#                                DIGITAL SCORE REELS                                          #
+###############################################################################################
+
+digital_score_reels: # this shows the number fo digital score reels and which frame points to each digit (character) 0-9
+  player_score:
+    reel_count: 6 #changed from 5 to 6 to see if roll overs can be prevented (ie if score goes to 6 digits the reels show the upper 5 digits 180100 shows as 18010 not 80100)
+    include_player_number: true
+    frames:
+      - character: 0
+        frame: 2
+      - character: 1
+        frame: 7
+      - character: 2
+        frame: 13
+      - character: 3
+        frame: 19
+      - character: 4
+        frame: 25
+      - character: 5
+        frame: 31
+      - character: 6
+        frame: 37
+      - character: 7
+        frame: 43
+      - character: 8
+        frame: 49
+      - character: 9
+        frame: 55
+
+###############################################################################################
+#                                      PLAYERS                                                #
+###############################################################################################
+
+sound_player:
+  player_added: stars
+
+slide_player:
+  mc_ready: # when the mc (Media Center) is ready start the...
+    layout: # layout slide on the..
+      target: window # ENTIRE Window
+
+###############################################################################################
+#                                  DROP TARGETS                                               #
+###############################################################################################
+
+drop_targets: # this configs each switch to a drop target
+  cup_C:
+    switch: s_dt_C
+  cup_U:
+    switch: s_dt_U
+  cup_P:
+    switch: s_dt_P
+  mug_M:
+    switch: s_dt_M
+  mug_U:
+    switch: s_dt_U2
+  mug_G:
+    switch: s_dt_G
+
+drop_target_banks: # this assigns the drop targets to their banks and sets parameters
+  cup_bank:
+    drop_targets: cup_C, cup_U, cup_P
+    reset_coils: c_dt_reset_CUP
+    reset_on_complete: 500ms
+    reset_coil_max_wait_ms: 500ms
+    reset_events: # reset the drop targets on these events
+      - ball_starting
+      - machine_reset_phase_3
+      - cupResetAgain
+  mug_bank:
+    drop_targets: mug_M, mug_U, mug_G
+    reset_coils: c_dt_reset_MUG
+    reset_on_complete: 500ms
+    reset_coil_max_wait_ms: 500ms
+    reset_events:
+      - ball_starting
+      - machine_reset_phase_3
+      - mugResetAgain
+
+game: # sets game parameters
+  balls_per_game: 5
+  max_players: 2
+<<<<<<< HEAD
+  add_player_event: okToAdd
+  start_game_event: okToStart
+=======
+>>>>>>> 133388c84db8f68aba2c98c724c20f75371a1da9

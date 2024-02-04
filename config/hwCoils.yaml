@@ -1,0 +1,163 @@
+#config_version=6
+
+###############################################################################################
+#                                         COILS                                               #
+###############################################################################################
+
+coils:
+  # Board 0 Chain 0
+  # A J7 plug
+  c_play_meter:
+    number: 0-0-0
+  c_popBumper_1: # Autofire so switch must be on Board 0
+    number: 0-0-5
+    default_pulse_ms: 17
+  c_trough_eject:
+    number: 0-0-6
+    default_pulse_ms: 100
+  c_popBumper_3: # Autofire so switch must be on Board 0
+    number: 0-0-7
+    default_pulse_ms: 17
+  c_popBumper_2: # Autofire so switch must be on Board 0
+    number: 0-0-15
+    default_pulse_ms: 17
+
+  # B J8 plug
+  c_dash_L:
+    number: 0-0-8
+    default_pulse_ms: 13
+  c_dash_R:
+    number: 0-0-9
+    default_pulse_ms: 20
+  c_perdition_post_down:
+    number: 0-0-10
+    default_pulse_ms: 15
+  c_perdition_post_up:
+    number: 0-0-11
+    default_pulse_ms: 15
+  c_sling_R: # Autofire so switch must be on Board 0
+    number: 0-0-13
+    default_pulse_ms: 17
+  c_sling_L: # Autofire so switch must be on Board 0
+    number: 0-0-14
+    default_pulse_ms: 17
+
+   # Board 1 Chain 1
+   # C J9 plug
+  c_dt_reset_CUP:
+    number: 1-0-0
+    default_pulse_ms: 100  # 60 will work
+  c_dt_reset_MUG:
+    number: 1-0-1
+    default_pulse_ms: 100  # 60 will work
+
+  c_flipper_right_main: # Autofire so switch must be on Board 1
+    number: 1-0-2
+    default_pulse_ms: 20
+  c_flipper_right_hold: # Autofire so switch must be on Board 1
+    number: 1-0-3
+    default_hold_power: .5
+    allow_enable: true
+
+  c_flipper_left_main: # Autofire so switch must be on Board 1
+    number: 1-0-7
+    default_pulse_ms: 20
+  c_flipper_left_hold: # Autofire so switch must be on Board 1
+    number: 1-0-4
+    default_hold_power: .5
+    allow_enable: true
+
+  c_kicker:
+    number: 1-0-5
+    default_pulse_ms: 8
+  c_perdition_kicker:
+    number: 1-0-6
+    default_pulse_ms: 22
+
+###############################################################################################
+#                                  AUTOFIRE COILS                                             #
+###############################################################################################
+
+autofire_coils:
+  pop_bumper1:
+    coil: c_popBumper_1
+    switch: s_popBumper_1
+    disable_events: mbFail
+    enable_events: ball_started, enableAfterFail
+  pop_bumper2:
+    coil: c_popBumper_2
+    switch: s_popBumper_2
+    disable_events: mbFail
+    enable_events: ball_started, enableAfterFail
+  pop_bumper3:
+    coil: c_popBumper_3
+    switch: s_popBumper_3
+    disable_events: mbFail
+    enable_events: ball_started, enableAfterFail
+  sling_L:
+    coil: c_sling_L
+    switch: s_sling_L
+    disable_events: mbFail
+    enable_events: ball_started, enableAfterFail
+  sling_R:
+    coil: c_sling_R
+    switch: s_sling_R
+    disable_events: mbFail
+    enable_events: ball_started, enableAfterFail
+
+###############################################################################################
+#                                    FLIPPERS                                                 #
+###############################################################################################
+
+flippers:
+  left_flipper:
+    main_coil: c_flipper_left_main
+    hold_coil: c_flipper_left_hold
+    activation_switch: s_left_flipper
+    disable_events: mbFail, game_ending, mode_attract_started, mode_high_score_started, tilt, mode_bonusEndOfBall_started
+    enable_events: ball_started, enableAfterFail, machine_reset_phase_3, s_shooter_lane_active
+  right_flipper:
+    main_coil: c_flipper_right_main
+    hold_coil: c_flipper_right_hold
+    activation_switch: s_right_flipper
+    disable_events: mbFail, game_ending, mode_attract_started, mode_high_score_started, tilt, mode_bonusEndOfBall_started
+    enable_events: ball_started, enableAfterFail, machine_reset_phase_3, s_shooter_lane_active
+
+###############################################################################################
+#                                 BALL DEVICES                                                #
+###############################################################################################
+
+ball_devices:
+  bd_trough:
+    ball_switches: s_trough1, s_trough2, s_trough_jam
+    eject_coil: c_trough_eject
+    tags: trough, home, drain
+    jam_switch: s_trough_jam
+    eject_coil_jam_pulse: 100ms
+    eject_targets: playfield
+    entrance_count_delay: 300ms
+    confirm_eject_switch: s_shooter_lane
+    confirm_eject_type: switch
+    eject_timeouts: 500ms
+    debug: true
+  bd_kicker:
+    ball_switches: s_kicker
+    eject_coil: c_kicker
+    eject_targets: playfield
+    eject_timeouts: 1S
+  bd_perdition_kicker:
+    ball_switches: s_perdition_kicker
+    eject_coil: c_perdition_kicker
+    eject_targets: playfield, bd_trough
+    eject_events: eject_bd_perdition_kicker
+    eject_timeouts: 15S
+  bd_dash_L:
+    ball_switches: s_dash_L
+    eject_coil: c_dash_L
+    eject_targets: playfield
+    eject_timeouts: 1S
+  bd_dash_R:
+    ball_switches: s_dash_R
+    eject_coil: c_dash_R
+    eject_targets: playfield
+    eject_timeouts: 1S

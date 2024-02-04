@@ -1,0 +1,498 @@
+#config_version=6
+#Cuphead Attract Mode
+
+###############################################################################################
+#                                       PLAYERS                                               #
+###############################################################################################
+
+show_player:
+  mode_attract_started: # when the mode begins...
+    attract_display_loop: # play the "attract_display_loop" with a...
+     speed: 1 # speed of 1
+#    giLinear:
+    insertsLinear:
+      speed: 4
+
+sound_player: # plays the attract music
+  mode_attract_started:
+    attract:
+      loops: 0 # loops the music once
+      mode_end_action: stop
+  request_to_start_game: startCallOuts # play the announcer voice when a player is added
+  s_left_flipper_active:
+    attract:
+      loops: 0 # loops the music once
+      max_queue_time: 100ms
+      mode_end_action: stop
+  s_right_flipper_active:
+    attract:
+      action: stop
+
+
+###############################################################################################
+#                                       SLIDES                                                #
+###############################################################################################
+
+slides: # these are the attract video slides
+  _overwrite: true
+  a_beppi:
+    widgets:
+    - type: video
+      video: a_beppi
+      z: 10
+  a_cagney:
+    widgets:
+    - type: video
+      video: a_cagney
+      z: 10
+  a_calla:
+    widgets:
+    - type: video
+      video: a_calla
+      z: 10
+  a_capt:
+    widgets:
+    - type: video
+      video: a_capt
+      z: 10
+  a_hilda:
+    widgets:
+    - type: video
+      video: a_hilda
+      z: 10
+  a_ribbi:
+    widgets:
+    - type: video
+      video: a_ribbi
+      z: 10
+  a_robot:
+    widgets:
+    - type: video
+      video: a_robot
+      z: 10
+  a_root:
+    widgets:
+    - type: video
+      video: a_root
+      z: 10
+  a_train:
+    widgets:
+    - type: video
+      video: a_train
+      z: 10
+  a_wally:
+    widgets:
+    - type: video
+      video: a_wally
+      z: 10
+  topper_slide:
+    widgets:
+    - type: image
+      image: topper_image
+
+  title_slide:
+    widgets:
+    - type: image
+      image: title_image
+      z: 2
+      fps: 30
+
+  bottom_slide: # Note the bottom slide is used for the finger animation so it only has the backdrop and finger
+    widgets:
+    - widget: score_backdrop_widget
+    - widget: finger_widget
+    - widget: playerAddedBackground_widget
+    - widget: soundPaused_widget
+    - widget: soundStarted_widget
+
+  score_slide_GameOver:  # Tge game over silde has all the elements of the in game score slide plus "Game Over"
+    widgets:
+    - widget: background_widget
+    - widget: reel_1_1_widget
+    - widget: reel_1_10_widget
+    - widget: reel_1_100_widget
+    - widget: reel_1_1k_widget
+    - widget: reel_1_10k_widget
+    - widget: reel_1_100k_widget
+    - widget: reel_2_1_widget
+    - widget: reel_2_10_widget
+    - widget: reel_2_100_widget
+    - widget: reel_2_1k_widget
+    - widget: reel_2_10k_widget
+    - widget: reel_2_100k_widget
+    - widget: figure_1_widget
+    - widget: figure_2_widget
+    - widget: score_mask_widget
+    - widget: figure_1_active_widget
+    - widget: figure_2_active_widget
+    - widget: Game_over_widget
+    - widget: soundPaused_widget
+    - widget: soundStarted_widget
+
+  thank_you_slide1:
+    background_color: 111AD3
+    widgets:
+    - widget: opp_widget
+  thank_you_slide2:
+    background_color: 111AD3
+    widgets:
+    - widget: mpf_widget
+  thank_you_slide3:
+    background_color: 111AD3
+    widgets:
+    - widget: cobrapin_widget
+  thank_you_slide4:
+    background_color: 111AD3
+    widgets:
+    - type: text
+      text: ORANGE PI 5 MPF
+      font_name: Aafia
+      font_size: 75
+      anchor_y: top
+      y: 590
+      z: 150
+      opacity: 1
+    - type: text
+      text: INTEGRATION BY
+      font_name: Aafia
+      font_size: 75
+      anchor_y: top
+      y: 500
+      z: 150
+      opacity: 1
+    - type: image
+      image: jsm174_image
+      anchor_x: left
+      anchor_y: bottom
+      x: 250
+      y: 50
+      z: 150
+  highScore1_slide:
+    background_color: 111AD3
+    widgets:
+    - type: text
+      font_size: 75
+      font_name: Aafia
+      text: HEAD HONCHO
+      color: F6BE28
+      y: 400
+      z: 75
+    - type: text
+      font_size: 75
+      font_name: Aafia
+      text: (machine|score1_name)
+      color: F6BE28
+      y: 300
+      z: 75
+    - type: text
+      font_size: 75
+      font_name: Aafia
+      text: (machine|score1_value)
+      color: F6BE28
+      y: 200
+      z: 100
+  highScore2_slide:
+    background_color: 111AD3
+    widgets:
+    - type: text
+      font_size: 75
+      font_name: Aafia
+      text: BEES KNEES
+      color: F6BE28
+      y: 400
+      z: 75
+    - type: text
+      font_size: 75
+      font_name: Aafia
+      text: (machine|score2_name)
+      color: F6BE28
+      y: 300
+      z: 75
+    - type: text
+      font_size: 75
+      font_name: Aafia
+      text: (machine|score2_value)
+      color: F6BE28
+      y: 200
+      z: 75
+  highScore3_slide:
+    background_color: 111AD3
+    widgets:
+    - type: text
+      font_size: 75
+      font_name: Aafia
+      text: CATS MEOW
+      color: F6BE28
+      y: 400
+      z: 75
+    - type: text
+      font_size: 75
+      font_name: Aafia
+      text: (machine|score3_name)
+      color: F6BE28
+      y: 300
+      z: 75
+    - type: text
+      font_size: 75
+      font_name: Aafia
+      text: (machine|score3_value)
+      color: F6BE28
+      y: 200
+      z: 75
+  highScore4_slide:
+    background_color: 111AD3
+    widgets:
+    - type: text
+      font_size: 75
+      font_name: Aafia
+      text: HOT DIGGITY
+      color: F6BE28
+      y: 400
+      z: 75
+    - type: text
+      font_size: 75
+      font_name: Aafia
+      text: (machine|score4_name)
+      color: F6BE28
+      y: 300
+      z: 75
+    - type: text
+      font_size: 75
+      font_name: Aafia
+      text: (machine|score4_value)
+      color: F6BE28
+      y: 200
+      z: 75
+  highScore5_slide:
+    background_color: 111AD3
+    widgets:
+    - type: text
+      font_size: 75
+      font_name: Aafia
+      text: GOOD GOLLY
+      color: F6BE28
+      y: 400
+      z: 75
+    - type: text
+      font_size: 75
+      font_name: Aafia
+      text: (machine|score5_name)
+      color: F6BE28
+      y: 300
+      z: 75
+    - type: text
+      font_size: 75
+      font_name: Aafia
+      text: (machine|score5_value)
+      color: F6BE28
+      y: 200
+      z: 75
+
+
+
+###############################################################################################
+#                                      WIDGETS                                                #
+###############################################################################################
+
+widgets:
+  score_backdrop_widget:
+    - type: image
+      image: score_image
+      z: 10
+  finger_widget:
+    - type: image
+      image: finger_image
+      x: 1080
+      z: 100
+      anchor_x: right
+      animations:
+        slide_title_slide_active: finger_animation
+  opp_widget:
+    - type: text
+      text: POWERED BY
+      font_name: Aafia
+      font_size: 75
+      anchor_y: top
+      y: 590
+      z: 150
+      opacity: 1
+    - type: image
+      image: opp_image
+      anchor_x: left
+      anchor_y: bottom
+      x: 250
+      y: 50
+      z: 150
+  mpf_widget:
+    - type: text
+      text: POWERED BY
+      font_name: Aafia
+      font_size: 75
+      anchor_y: top
+      y: 590
+      z: 150
+      opacity: 1
+    - type: image
+      image: mpf_image
+      anchor_x: left
+      anchor_y: bottom
+      x: 200
+      y: 10
+      z: 150
+  cobrapin_widget:
+    - type: text
+      text: POWERED BY
+      font_name: Aafia
+      font_size: 75
+      anchor_y: top
+      y: 590
+      z: 150
+      opacity: 1
+    - type: image
+      image: cobrapin_image
+      anchor_x: left
+      anchor_y: bottom
+      x: -60
+      y: 50
+      z: 150
+
+  playerAddedBackground_widget:
+   - type: image
+     image: playerAddedBackground_image
+     anchor_x: left
+     anchor_y: bottom
+     y: 0
+     x: 0
+     z: 100
+     opacity: 0
+     animations:
+       player_added: contract_animation
+
+  soundPaused_widget:
+   - type: text
+     text: ATTRACT MUSIC ON
+     font_name: Aafia
+     font_size: 75
+     anchor_y: bottom
+     y: 200
+     z: 160
+     opacity: 0
+     animations:
+       s_left_flipper_active: contract_animation
+
+  soundStarted_widget:
+  - type: text
+    text: ATTRACT MUSIC OFF
+    font_name: Aafia
+    font_size: 75
+    anchor_y: bottom
+    y: 200
+    z: 160
+    opacity: 0
+    animations:
+      s_right_flipper_active: contract_animation
+
+animations:
+  finger_animation:
+    - property: x
+      value: 0
+      duration: 0
+    - property: opacity
+      value: 1
+    - property: x
+      value: 1080
+      duration: .25s
+    - property: x
+      value: 0
+      relative: true
+      duration: 2s
+    - property: x
+      value: 2160
+      duration: .25s
+    - property: opacity
+      value: 0
+      duration: 0
+      repeat: true
+
+###############################################################################################
+#                                       VIDEOS                                                #
+###############################################################################################
+
+videos: # the video names must be defined
+  a_beppi:
+    file: attr_beppi.mp4
+    height: 600 # set the aspect ration
+    width: 1080
+  a_cagney:
+    file: attr_cagney.mp4
+    height: 600
+    width: 1080
+  a_calla:
+    file: attr_calla.mp4
+    height: 600
+    width: 1080
+  a_capt:
+    file: attr_capt.mp4
+    height: 600
+    width: 1080
+  a_hilda:
+    file: attr_hilda.mp4
+    height: 600
+    width: 1080
+  a_ribbi:
+    file: attr_ribbi.mp4
+    height: 600
+    width: 1080
+  a_robot:
+    file: attr_robot.mp4
+    height: 600
+    width: 1080
+  a_root:
+    file: attr_root.mp4
+    height: 600
+    width: 1080
+  a_train:
+    file: attr_train.mp4
+    height: 600
+    width: 1080
+  a_wally:
+    file: attr_wally.mp4
+    height: 600
+    width: 1080
+
+###############################################################################################
+#                                       IMAGES                                                #
+###############################################################################################
+
+images: # images must be defined
+  score_image:
+    file: score.png
+  title_image:
+    file: title.zip
+  finger_image:
+    file: finger.png
+  topper_image:
+    file: topper.png
+  opp_image:
+    file: opp.png
+  mpf_image:
+    file: mpf.png
+  cobrapin_image:
+    file: cobrapin.png
+  jsm174_image:
+    file: jsm174.png
+
+
+
+###############################################################################################
+#                                  SLIDE PLAYER                                               #
+###############################################################################################
+
+slide_player: # this slide player will
+  mode_attract_started: # start these slides when the mode begins
+    title_slide:
+      target: middle # sets the destination display for the slides
+    topper_slide:
+      target: upper
+    score_slide_GameOver:
+      target: lower

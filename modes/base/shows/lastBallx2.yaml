@@ -1,0 +1,6 @@
+#show_version=6
+#Cuphead Base mode lighting effects
+
+- duration: 1
+  lights:
+    l_2x: white

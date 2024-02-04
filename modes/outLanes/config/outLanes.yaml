@@ -1,0 +1,16 @@
+#config_version=6
+
+# Mode if out lanes are not lit
+
+mode:
+  start_events:
+    - ball_started
+    - resetLitOutLanes
+  priority: 150
+  stop_events: rightStar_complete, mbFail
+
+variable_player:
+  s_outLane_L_active:
+    score: 100
+  s_outLane_R_active:
+    score: 100

@@ -1,0 +1,37 @@
+#config_version=6
+
+mode:
+  start_events: ball_starting, s_trough1_active{current_player.perditionBallSaveOn==0} # start on a new ball or if the trough is hit with the ball save off
+  stop_events: timer_perdMB_timer_complete, multiball_perdition_multiball_shoot_again_ended, multiball_perdition_multiball_shoot_again  # stop the mode if the mb ball save is expired or the lighting timer for the ball save is ended
+  priority: 200
+  restart_on_next_ball: true
+
+multiball_locks:
+  perditionLock:
+    debug: true
+    enable_events: advance_perdition{count==3} # counter for three entries to saucer
+    balls_to_lock: 1
+    lock_devices: bd_perdition_kicker # saucer in perdition lane
+    reset_count_for_current_player_events: advance_perdition{count==4} # reset after multiball is achieved
+
+multiballs:
+  perdition_multiball:
+    ball_count: 2
+    ball_locks: bd_perdition_kicker # this locks the ball and...
+    start_events: startMBPost.1 # this releases it (from the perdition mode)
+    shoot_again: 10s # if one multiball drains in less than 10 Seconds give another ball
+    reset_events: timer_perdMB_timer_complete, multiball_perdition_multiball_shoot_again_ended
+
+###############################################################################################
+#                                      PLAYERS                                                #
+###############################################################################################
+
+show_player:
+  advance_perdition{count==3}:
+    perdition_multiball_lights: # light show for multiball
+      speed: 1
+  advance_perdition{count==4}:
+    perdition_multiball_lights: stop
+
+sound_player:
+  startMBPost: perditionKick

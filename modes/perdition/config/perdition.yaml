@@ -1,0 +1,78 @@
+#config_version=6
+
+mode:
+  start_events: ball_starting, s_trough1_active{current_player.perditionBallSaveOn==0} #, multiball_perdition_multiball_ball_lost # starts along side basae mode
+  priority: 230
+  stop_events: timer_perditionPost_timer_started, mbFail #ends on ball drained, multiball achieved (devil bumper) or multiball failed
+
+counters:
+  perdition_entry:
+    count_events: # increments every time the perdition kicker fires, start or fail of MB and ...
+      - s_perdition_kicker_active{current_player.perdition_value == 0}
+      - s_perdition_kicker_active{current_player.perdition_value == 1}
+      - s_perdition_kicker_active{current_player.perdition_value == 2}
+      - s_perdition_kicker_active{current_player.perdition_value == 3}
+      - startMBPost
+      - multiballFail
+    count_complete_value: 4 # is complete after three entries into berdition and then exit...
+    starting_count: 0 # startes at zero
+    direction: up #  It counts up and ...
+    persist_state: true # keeps it's count from ball to ball
+    events_when_hit: advance_perdition  # It posts advance_perdition when incremented and ...
+    reset_on_complete: true # resets upon completion and ...
+    disable_on_complete: false # will start up again after completion
+
+sequences:
+  multiballReady:
+    events:
+      - advance_perdition{count==3}
+  #    - s_perdition_kicker_active
+    events_when_complete: mbReady
+    reset_on_complete: True
+
+  startMB:
+    events:
+      - advance_perdition{count==3}
+      - s_popBumper_2_active
+    events_when_complete: startMBPost
+    reset_on_complete: True
+
+###############################################################################################
+#                                      PLAYERS                                                #
+###############################################################################################
+
+variable_player:
+  s_perdition_kicker_active:
+    score: 100
+    perdition_value: 1
+  startMBPost:
+    perdition_value:
+      int: 0
+      action: set
+
+sound_player:
+  advance_perdition{count==1}: perdition
+  advance_perdition{count==2}: perdition
+  advance_perdition{count==3}: perditionLock
+
+show_player:
+  advance_perdition{count==1}:
+    perdition1on: play # first time show this
+    perdition0: stop
+  advance_perdition{count==2}:
+    perdition2on: play
+    perdition1On: stop
+  advance_perdition{count==3}:
+    perdition3on: play
+    flashDevil: play
+    perdition2on: stop
+  advance_perdition{count==4}:
+    giOn: play
+    perdition0: play
+    perdition3On: stop
+  ball_start_target{current_player.perdition_value == 0}:
+    perdition0: play
+  ball_start_target{current_player.perdition_value == 1}:
+    perdition1on: play
+  ball_start_target{current_player.perdition_value == 2}:
+    perdition2on: play

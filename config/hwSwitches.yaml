@@ -1,0 +1,225 @@
+<<<<<<< HEAD
+#config_version=6
+=======
+#config_version=56
+>>>>>>> 133388c84db8f68aba2c98c724c20f75371a1da9
+machine:
+  balls_installed: 5
+  min_balls: 1
+
+virtual_platform_start_active_switches:
+  - s_trough1
+  - s_trough2
+
+###############################################################################################
+#                                 DIRECT SWITCHES                                             #
+###############################################################################################
+
+switches:
+  s_dt_U:
+    number: 0-0-8
+    tags: dtSw
+    type: 'NC'
+  s_dt_P:
+    number: 0-0-2
+    tags: dtSw
+    type: 'NC'
+  s_dt_C:
+    number: 0-0-3
+    tags: dtSw
+    type: 'NC'
+  s_EOS_L:
+    number: 1-0-8
+    type: 'NC'
+  s_sling_L:
+    number: 0-0-9
+    tags: slingSw
+  s_EOS_R:
+    number: 0-0-10
+    type: 'NC'
+  s_sling_R:
+    number: 0-0-11
+    tags: slingSw
+  s_start:
+    number: 1-0-2
+    tags: start
+  s_tilt_bob:
+    number: 1-0-3
+    tags: tilt_warning
+  s_ball_tilt:
+    number: 1-0-9
+  s_right_flipper:
+    number: 1-0-10
+    tags: right_flipper
+  s_left_flipper:
+    number: 1-0-11
+    tags: left_flipper
+  s_dt_M:
+    number: 0-0-16
+    tags: dtSw
+    type: 'NC'
+  s_dt_G:
+    number: 0-0-17
+    tags: dtSw
+    type: 'NC'
+  s_dtSling_L:
+    number: 0-0-18
+    tags: dtSlingSw
+  s_dtSling_R:
+    number: 0-0-19
+    tags: dtSlingSw
+  s_popBumper_1:
+    number: 0-0-24
+    tags: popBumperSw
+  s_popBumper_2:
+    number: 0-0-25
+    tags: popBumperSw
+  s_popBumper_3:
+    number: 0-0-26
+    tags: popBumperSw
+  s_dt_U2:
+    number: 0-0-27
+    tags: dtSw
+    type: 'NC'
+
+###############################################################################################
+#                                 SWITCH MATRIX                                               #
+###############################################################################################
+
+  # Column 1
+  s_trough1:
+    number: 1-0-64
+    tags: trough
+  s_trough2:
+    number: 1-0-65
+    tags: trough
+    type: 'NC'
+  s_trough_jam:
+    number: 1-0-66
+    tags: trough
+  s_outLane_R:
+    number: 1-0-67
+    tags: bottomLanesSw
+    type: 'NC'
+  s_inLane_R:
+    number: 1-0-71
+    tags: bottomLanesSw
+    type: 'NC'
+
+  # Column 2
+  s_midRight:
+    number: 1-0-40
+    type: 'NC'
+  s_star_3:
+    number: 1-0-41
+    tags: starSw
+    type: 'NC'
+  s_soul_L:
+    number: 1-0-42
+    tags: inLanesSw
+    type: 'NC'
+  s_kicker:
+    number: 1-0-43
+    type: 'NC'
+    ignore_window_ms: 750ms
+  s_standUp_3:
+    number: 1-0-45
+    tags: standUp_LSw
+    type: 'NC'
+  s_dash_R:
+    number: 1-0-46
+    type: 'NC'
+    tags: dashSw
+    ignore_window_ms: 700 ms
+
+  # Column 3
+  s_inLane_L:
+    number: 1-0-48
+    tags: bottomLanesSw
+    type: 'NC'
+  s_outLane_L:
+    number: 1-0-49
+    tags: bottomLanesSw
+    type: 'NC'
+  s_soul_S:
+    number: 1-0-50
+    tags: inLanesSw
+    type: 'NC'
+  s_star_2:
+    number: 1-0-51
+    tags: starSw
+    type: 'NC'
+  s_standUp_2:
+    number: 1-0-53
+    tags: standUp_LSw
+    type: 'NC'
+  s_spinner:
+    number: 1-0-54
+    type: 'NC'
+  s_star_1:
+    number: 1-0-55
+    tags: starSw
+    type: 'NC'
+
+  # Column 4
+  s_shooter_lane:
+    number: 1-0-56
+    tags: playfield_active
+    ignore_window_ms: 600 ms
+    events_when_deactivated: start_ball_save
+    type: 'NC'
+  s_soul_U:
+    number: 1-0-58
+    tags: inLanesSw
+    type: 'NC'
+  s_soul_O:
+    number: 1-0-59
+    tags: inLanesSw
+    type: 'NC'
+  s_standUp_1:
+    number: 1-0-61
+    tags: standUp_LSw
+    type: 'NC'
+  s_dash_L:
+    number: 1-0-62
+    tags: dashSw
+    type: 'NC'
+    ignore_window_ms: 700 ms
+  s_perdition_kicker:
+    number: 1-0-63
+    type: 'NC'
+    ignore_window_ms: 400 ms # This will prevent multiple hits to the switch for more accurate counting
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    #

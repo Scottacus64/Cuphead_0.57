@@ -1,0 +1,181 @@
+#config_version=6
+
+mode:
+  priority: 500
+  start_events: start_high_score, game_ending
+  # NOTE: without game_ending mode never starts
+  use_wait_queue: true
+
+high_score:
+  _overwrite: true
+  enter_initials_timeout: 60s
+  award_slide_display_time: 3S
+
+  # define your high score categories and the awards
+  categories:
+     score:
+       - HEAD HONCHO
+       - BEES KNEES
+       - CATS MEOW
+       - HOT DIGGITY
+       - GOOD GOLLY
+
+  # set the defaults
+  defaults:
+    score:
+      - CUP: 69000
+      - MUG: 60000
+      - SEM: 50000
+      - DBM: 40000
+      - BBC: 600
+
+###############################################################################################
+#                                  SOUND PLAYER                                               #
+###############################################################################################
+
+sound_player:
+  high_score_enter_initials:
+    attract:
+      mode_end_action: stop
+  s_left_flipper_active: dropTarget
+  s_right_flipper_active: dropTarget
+  s_start_active: spin
+  high_score_award_display:
+    specialAward:
+      action: play
+    attract:
+      action: stop
+
+###############################################################################################
+#                                  SLIDE PLAYER                                               #
+###############################################################################################
+
+slide_player:
+  _overwrite: true
+  high_score_enter_initials:
+    high_score_enter_initials:
+      target: middle
+    topper_slide:
+      target: upper
+    hs_base_slide:
+      target: lower
+  high_score_award_display:
+    high_score_award_display:
+      target: middle
+#  mode_high_score_started:
+
+
+###############################################################################################
+#                                        SLIDES                                               #
+###############################################################################################
+
+slides:
+ _overwrite: true
+ high_score_enter_initials:
+    - type: image
+      image: backdrop
+
+    - type: text_input
+      initial_char: A
+      dynamic_x: false
+      key: high_score
+      font_name: Aafia
+      font_size: 100
+      max_chars: 3
+      color: black
+      y: 150
+      z: 100
+      animations:
+        show_slide:
+          - property: opacity
+            value: 1
+            duration: 0.3s
+            easing: in_out_quint
+          - property: opacity
+            value: 0
+            duration: 0.3s
+            repeat: true
+            easing: in_out_quint
+      shift_left_event: s_left_flipper_active
+      shift_right_event: s_right_flipper_active
+      select_event: s_start_active
+
+    - type: text
+      text: '<       >'
+      font_size: 50
+      color: black
+      font_name: Aafia
+      y: 200
+      z: 100
+
+    - type: text
+      font_size: 50
+      font_name: Aafia
+      text: (award)
+      color: black
+      y: 300
+      z: 100
+
+    - type: text
+      text: ''
+      key: high_score
+      font_size: 100
+      font_name: Aafia
+      color: yellow
+      y: 400
+      z: 100
+
+    - type: text
+      font_size: 50
+      font_name: Aafia
+      color: black
+      text: PLAYER (player_num)
+      y: 500
+      z: 100
+
+###############################################################################################
+#                               HIGH SCORE DISPLAY                                            #
+###############################################################################################
+
+ high_score_award_display:
+    - type: image
+      image: backdrop
+
+    - type: text
+      text: (award)
+      font_size: 50
+      font_name: Aafia
+      color: yellow
+      y: 400
+      z: 100
+      animations:
+        show_slide:
+          - property: opacity
+            value: 1
+            duration: 0.05s
+          - property: opacity
+            value: 0
+            duration: 0.05s
+            repeat: true
+
+    - type: text
+      text: (player_name)
+      font_size: 100
+      font_name: Aafia
+      color: yellow
+      y: 300
+      z: 100
+
+    - type: text
+      text: (value)
+      y: 200
+      z: 100
+      font_size: 100
+      font_name: Aafia
+      color: yellow
+      number_grouping: true
+      min_digits: 2
+
+ hs_base_slide:
+     type: image
+     image: hs_base

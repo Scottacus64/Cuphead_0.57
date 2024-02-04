@@ -1,0 +1,332 @@
+#config_version=6
+
+sound_system:
+<<<<<<< HEAD
+=======
+    master_volume: 0.75
+>>>>>>> 133388c84db8f68aba2c98c724c20f75371a1da9
+    tracks:
+       music:
+          type: standard
+          simultaneous_sounds: 1
+          volume: 0.5
+       voice:
+          type: standard
+          simultaneous_sounds: 1
+          volume: 0.7
+       sfx:
+          type: standard
+          simultaneous_sounds: 8
+          volume: 0.4
+
+###############################################################################################
+#                                    SOUNDS                                                   #
+###############################################################################################
+
+sounds:
+  attract:
+    file: attract_music.wav
+    track: music
+    volume: .5
+    fade_out: 1S
+#    events_when_played: attract_play
+  root_music:
+    file: root.wav
+    track: music
+    volume: .5
+    fade_out: 1S
+    events_when_played: root_play
+  ribbi_music:
+    file: ribbi.wav
+    track: music
+    volume: .75
+    fade_out: 1S
+    events_when_played: ribbi_play
+  hilda_music:
+    file: hilda.wav
+    track: music
+    volume: .75
+    fade_out: 1S
+    events_when_played: hilda_play
+  cagney_music:
+    file: cagney.wav
+    track: music
+    volume: .75
+    fade_out: 1S
+    events_when_played: cagney_play
+  beppi_music:
+    file: beppi.wav
+    track: music
+    volume: .75
+    fade_out: 1S
+    events_when_played: beppi_play
+  wally_music:
+    file: wally.wav
+    track: music
+    volume: .75
+    fade_out: 1S
+    events_when_played: wally_play
+  capt_music:
+    file: capt.wav
+    track: music
+    volume: .75
+    fade_out: 1S
+    events_when_played: capt_play
+  calla_music:
+    file: calla.wav
+    track: music
+    volume: .75
+    fade_out: 1S
+    events_when_played: calla_play
+  robot_music:
+    file: robot.wav
+    track: music
+    volume: .75
+    fade_out: 1S
+    events_when_played: robot_play
+  train_music:
+    file: train.wav
+    track: music
+    volume: .75
+    fade_out: 1S
+    events_when_played: train_play
+  callOut1:
+    file: CHballstart1.wav
+    track: voice
+    volume: .75
+    ducking:
+      target: music
+      delay: 0
+      attack: 0.3 sec
+      attenuation: -18db
+      release_point: 2.0 sec
+      release: 1.0 sec
+  callOut2:
+    file: CHballstart2.wav
+    track: voice
+    volume: .75
+    ducking:
+      target: music
+      delay: 0
+      attack: 0.3 sec
+      attenuation: -18db
+      release_point: 2.0 sec
+      release: 1.0 sec
+  callOut3:
+    file: CHballstart3.wav
+    track: voice
+    volume: .75
+    ducking:
+      target: music
+      delay: 0
+      attack: 0.3 sec
+      attenuation: -18db
+      release_point: 2.0 sec
+      release: 1.0 sec
+  callOut4:
+    file: CHballstart4.wav
+    track: voice
+    volume: .75
+    ducking:
+      target: music
+      delay: 0
+      attack: 0.3 sec
+      attenuation: -18db
+      release_point: 2.0 sec
+      release: 1.0 sec
+  soulLaneSound:
+    file: CHBounce.wav
+    track: sfx
+    volume: .75
+  soulComplete:
+    file: CHSoulComplete.wav
+    track: sfx
+    volume: 75
+  drainHit:
+    file: CHDrain.wav
+    track: sfx
+    volume: .75
+  inLanes:
+    file: CHInlanes.wav
+    track: sfx
+    volume: .75
+  dashLit:
+    file: CHOoga.wav
+    track: sfx
+    volume: .75
+  dashKick:
+    file: CHdashKickers.wav
+    track: sfx
+    volume: 1
+  outLanes:
+    file: CHOutlanes.wav
+    track: sfx
+    volume: .75
+  soul1:
+    file: SoulMusic1.wav
+    track: sfx
+    volume: .75
+    events_when_played: contract1_play
+  soul2:
+    file: SoulMusic2.wav
+    track: sfx
+    volume: .75
+    events_when_played: contract2_play
+  soul3:
+    file: SoulMusic3.wav
+    track: sfx
+    volume: .75
+    events_when_played: contract3_play
+  soul4:
+    file: SoulMusic4.wav
+    track: sfx
+    volume: .75
+    events_when_played: contract4_play
+  soul5:
+    file: SoulMusic5.wav
+    track: sfx
+    volume: .75
+    events_when_played: contract5_play
+  soul6:
+    file: SoulMusic6.wav
+    track: sfx
+    volume: .75
+    events_when_played: contract6_play
+  soul7:
+    file: SoulMusic7.wav
+    track: sfx
+    volume: .75
+    events_when_played: contract7_play
+  soul8:
+    file: SoulMusic8.wav
+    track: sfx
+    volume: .75
+    events_when_played: contract8_play
+  soul9:
+    file: SoulMusic9.wav
+    track: sfx
+    volume: .75
+    events_when_played: contract9_play
+  soul10:
+    file: SoulMusic10.wav
+    track: sfx
+    volume: .75
+    events_when_played: contract10_play
+  standUps:
+    file: CHStandups.wav
+    track: sfx
+    volume: .75
+  dashLitStarted:
+    file: CHDashLitStarted.wav
+    track: sfx
+    volume: .75
+  roll7:
+    file: CHRoll7.wav
+    track: sfx
+    volume: .75
+  spin:
+    file: CHspin.wav
+    track: sfx
+    volume: .75
+  perditionkicker:
+    file: CHPerditionkicker.wav
+    track: sfx
+    volume: .75
+  knockOut:
+    file: CHknockOut.wav
+    track: sfx
+    volume: .75
+  perdition:
+    file: perdition.wav
+    track: sfx
+    volume: .75
+  perditionLock:
+    file: devilShort.wav
+    track: sfx
+    volume: .75
+  perditionKick:
+    file: CHPerditionRelease.wav
+    track: sfx
+    volume: .75
+    ducking:
+      target: music
+      delay: 0
+      attack: 0.3 sec
+      attenuation: -18db
+      release_point: 2.0 sec
+      release: 1.0 sec
+  dropTarget:
+    file: CHdt.wav
+    track: sfx
+    volume: .75
+  kicker:
+    file: CHkicker.wav
+    track: sfx
+    volume: .75
+  stars:
+    file: CHStar.wav
+    track: sfx
+    volume: .75
+  extraBallAward:
+    file: CHExtraBall.wav
+    track: sfx
+    volume: .75
+  specialAward:
+    file: CH7Special.wav
+    track: sfx
+    volume: .99
+  bonusPayout:
+    file: CHBonus.wav
+    track: sfx
+    volume: .75
+  bonusPayout2:
+    file: CH2Bonus.wav
+    track: sfx
+    volume: .75
+  bonusPayout3:
+    file: CH3Bonus.wav
+    track: sfx
+    volume: .75
+  bonusPayout4:
+    file: CH4Bonus.wav
+    track: sfx
+    volume: .75
+  dtSling:
+    file: CHDTSling.wav
+    track: sfx
+    volume: .75
+  ballRelease:
+    file: CHPlungerPull.wav
+    track: sfx
+    volume: .75
+  plunger:
+    file: CHBallRelease.wav
+    track: sfx
+    volume: 1
+###############################################################################################
+#                                 SOUND POOLS                                                 #
+###############################################################################################
+
+sound_pools:
+  poolCupHeadBase:
+    type: random_force_all # play a random song but don't play one a second time until all have been played
+    track: music
+    sounds:
+      - beppi_music
+      - cagney_music
+      - calla_music
+      - capt_music
+      - hilda_music
+      - ribbi_music
+      - robot_music
+      - root_music
+      - train_music
+      - wally_music
+  startCallOuts:
+    type: random_force_all
+    track: voice
+    sounds:
+      - callOut1
+      - callOut2
+      - callOut3
+      - callOut4

@@ -1,0 +1,99 @@
+#config_version=6
+
+mode:
+  start_events: ball_started  #runs along side base mode
+  stop_events: bonusDone
+  priority: 110
+
+counters:
+  contract_counter:
+    count_events: soul_lanes_lit_complete, lastBall #soul_lanes_complete posts twice once as lit, once as unlit
+    events_when_hit: soul_lanes_done # when the lanes are complete this goes up by one
+    starting_count: 1
+    direction: up
+    persist_state: false
+
+###############################################################################################
+#                                        SHOTS                                                #
+###############################################################################################
+
+shots:
+  soul_S:
+    switch: s_soul_S
+    show_tokens:
+      light: l_soul_S
+  soul_O:
+    switch: s_soul_O
+    show_tokens:
+      light: l_soul_O
+  soul_U:
+    switch: s_soul_U
+    show_tokens:
+      light: l_soul_U
+  soul_L:
+    switch: s_soul_L
+    show_tokens:
+      light: l_soul_L
+
+shot_groups:  # the shot group...
+  soul_lanes:  #  sould_lanes...
+    shots: soul_S, soul_O, soul_U, soul_L  # consits of these shots and are ...
+    rotate_left_events: s_left_flipper_active # rotated left with the left flipper and ...
+    rotate_right_events: s_right_flipper_active # right with the right flipper
+    reset_events:
+      soul_lanes_lit_complete: 1s # this resests on the event soul_lanes_complete which means each shot has been hit
+
+###############################################################################################
+#                                      PLAYERS                                                #
+###############################################################################################
+
+variable_player:
+  mode_soulLanes_started:
+    bonus_multiplier:
+      int: 1
+      action: set
+  soul_lanes_done:{count==1}:
+    bonus_multiplier: 1
+  soul_lanes_done{count==2}:
+    bonus_multiplier: 1
+  soul_lanes_done{count==3}:
+    bonus_multiplier: 1
+  soul_lanes_done{count==4}:
+    bonus_multiplier: 1
+  s_soul_S_active:
+    score: 100
+  s_soul_O_active:
+    score: 100
+  s_soul_U_active:
+    score: 100
+  s_soul_L_active:
+    score: 100
+  soul_lanes_unlit_complete:  # this allows scoring on the unlit which posts later after the lit is posted
+    score: 1000
+
+event_player:
+  mode_soulLanes_started{current_player.ball == 5}: lastBall # on last ball set bonus multiplier to 2
+  soul_lanes_done{count==2}: bonus2
+  soul_lanes_done{count==3}: bonus3
+  soul_lanes_done{count==4}: bonus4
+
+sound_player:
+    s_soul_S_active: soulLaneSound
+    s_soul_O_active: soulLaneSound
+    s_soul_U_active: soulLaneSound
+    s_soul_L_active: soulLaneSound
+    soul_lanes_lit_complete: soulComplete
+
+show_player:
+  soul_lanes_lit_complete:
+    flash:
+      loops: 4
+      speed: 4
+      show_tokens:
+        lights: soul_lanes
+  soul_lanes_done{count==2}:
+    2x_on: play
+  soul_lanes_done{count==3}:
+    3x_on: play
+  soul_lanes_done{count==4}:
+    4x_on: play

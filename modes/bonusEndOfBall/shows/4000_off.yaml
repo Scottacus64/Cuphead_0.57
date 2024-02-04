@@ -1,0 +1,8 @@
+#show_version=6
+
+- duration: 300ms
+
+- duration: 100ms
+  lights:
+    l_bonus_3000: white
+    l_bonus_4000: off

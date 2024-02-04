@@ -1,0 +1,57 @@
+#config_version=6
+
+mode:
+  start_events:
+    - ball_started
+    - dash_complete
+  priority: 120
+  stop_events:
+    - mode_dashLit_started
+
+shots:
+  standUp1:
+    switch: s_standUp_1
+  standUp2:
+    switch: s_standUp_2
+  standUp3:
+    switch: s_standUp_3
+
+accruals:
+  standUp_block:
+    events:
+      - standUp1_hit
+      - standUp2_hit
+      - standUp3_hit
+    events_when_complete:
+      - standUps_complete
+      - start_dashLit
+#    reset_when_complete: True
+    disable_on_complete: False
+
+###############################################################################################
+#                                      PLAYERS                                                #
+###############################################################################################
+
+variable_player:
+  s_standUp_1_active:
+    score: 10
+  s_standUp_2_active:
+    score: 10
+  s_standUp_3_active:
+    score: 10
+
+show_player:
+    mode_standUps_started:
+      dashOff:
+        show_tokens:
+          lights: dash
+    s_standUp_1_active: standUp1On
+    s_standUp_2_active: standUp2On
+    s_standUp_3_active: standUp3On
+
+sound_player:
+  s_dash_L_active: dashKick
+  s_dash_R_active: dashKick
+  standUp1_hit: standUps
+  standUp2_hit: standUps
+  standUp3_hit: standUps

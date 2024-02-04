@@ -1,0 +1,17 @@
+#show_version=6
+
+- duration: 200ms
+  lights:
+    l_star_1: off
+    l_star_2: off
+    l_star_3: white
+- duration: 200ms
+  lights:
+    l_star_1: white
+    l_star_2: off
+    l_star_3: off
+- duration: 200ms
+  lights:
+    l_star_1: off
+    l_star_2: white
+    l_star_3: off
