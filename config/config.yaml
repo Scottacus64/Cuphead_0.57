@@ -171,15 +171,13 @@ event_player:
   player_added{num==2}:
     add_player_2:
       priority: 550
-<<<<<<< HEAD
   request_to_start_game{s_trough2_active}:
     okToStart:
       priority: 550
   request_to_add_player{s_trough2_active}:
     okToAdd:
       priority: 550
-=======
->>>>>>> 133388c84db8f68aba2c98c724c20f75371a1da9
+
 
 ###############################################################################################
 #                                      WIDGETS                                                #
@@ -301,8 +299,6 @@ drop_target_banks: # this assigns the drop targets to their banks and sets param
 game: # sets game parameters
   balls_per_game: 5
   max_players: 2
-<<<<<<< HEAD
   add_player_event: okToAdd
   start_game_event: okToStart
-=======
->>>>>>> 133388c84db8f68aba2c98c724c20f75371a1da9
+
