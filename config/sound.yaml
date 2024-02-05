@@ -1,10 +1,6 @@
 #config_version=6
 
 sound_system:
-<<<<<<< HEAD
-=======
-    master_volume: 0.75
->>>>>>> 133388c84db8f68aba2c98c724c20f75371a1da9
     tracks:
        music:
           type: standard
