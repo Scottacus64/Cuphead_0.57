@@ -1,8 +1,4 @@
-<<<<<<< HEAD
 #config_version=6
-=======
-#config_version=56
->>>>>>> 133388c84db8f68aba2c98c724c20f75371a1da9
 machine:
   balls_installed: 5
   min_balls: 1
