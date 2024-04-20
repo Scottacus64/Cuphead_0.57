@@ -47,7 +47,7 @@ timers:
   special7_timer: # this timer will be active if a 7 is rolled and if another 7 is rolled while active, 7000 points are awarded
     direction: up
     start_value: 1
-    end_value: 27
+    end_value: 57   # this timer will go for 57 seconds and the hurry up for 3, total of 60 seconds
     tick_interval: 1s
     debug: True
     control_events:
