@@ -68,7 +68,7 @@ variable_player:
     score: 100
   s_soul_L_active:
     score: 100
-  soul_lanes_unlit_complete:  # this allows scoring on the unlit which posts later after the lit is posted
+  soul_lanes_lit_complete:
     score: 1000
 
 event_player:
