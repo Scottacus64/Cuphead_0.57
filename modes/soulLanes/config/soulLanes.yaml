@@ -41,7 +41,7 @@ shot_groups:  # the shot group...
     rotate_left_events: s_left_flipper_active # rotated left with the left flipper and ...
     rotate_right_events: s_right_flipper_active # right with the right flipper
     reset_events:
-      soul_lanes_lit_complete: 1s # this resests on the event soul_lanes_complete which means each shot has been hit
+      soul_lanes_lit_complete: .5s # this resests on the event soul_lanes_complete which means each shot has been hit
 
 ###############################################################################################
 #                                      PLAYERS                                                #
