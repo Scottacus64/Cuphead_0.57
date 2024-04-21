@@ -196,7 +196,7 @@ shot_groups: # this shot group was made to give the ability to stop scoring on t
 
 ball_saves:
   ballOut:
-    active_time: 8s
+    active_time: 9s
     hurry_up_time: 3s
     timer_start_events: balldevice_bd_trough_ejecting_ball
     balls_to_save: 1
