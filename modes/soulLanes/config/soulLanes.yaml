@@ -68,7 +68,7 @@ variable_player:
     score: 100
   s_soul_L_active:
     score: 100
-  soul_lanes_done:
+  soul_lanes_unlit_complete:
     score: 1000
 
 event_player:
