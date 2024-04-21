@@ -12,7 +12,7 @@ show_player:
 sequences:
   soul5EB:
     events:
-      - bank_done{count==4}
+      - bank_done{count==5}
       - s_kicker_active
     events_when_complete: soul5ebPost
     reset_on_complete: True
