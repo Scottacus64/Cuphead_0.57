@@ -5,6 +5,7 @@ mode:
     - ball_started
     - dash_complete
   priority: 120
+  code: DashChecker.DashChecker
   stop_events:
     - mode_dashLit_started
 
@@ -35,10 +36,19 @@ accruals:
 variable_player:
   s_standUp_1_active:
     score: 10
+    dashSU1:
+      int: 1
+      action: set    
   s_standUp_2_active:
     score: 10
+    dashSU2:
+      int: 1
+      action: set    
   s_standUp_3_active:
     score: 10
+    dashSU3:
+      int: 1
+      action: set
 
 show_player:
     mode_standUps_started:
@@ -48,6 +58,9 @@ show_player:
     s_standUp_1_active: standUp1On
     s_standUp_2_active: standUp2On
     s_standUp_3_active: standUp3On
+    ball_start_target{current_player.dashSU1 == 1}: standUp1On
+    ball_start_target{current_player.dashSU2 == 1}: standUp2On
+    ball_start_target{current_player.dashSU3 == 1}: standUp3On    
 
 sound_player:
   s_dash_L_active: dashKick

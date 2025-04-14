@@ -74,6 +74,16 @@ player_vars: # these are player variables that can be seen by all modes
   perditionBallSaveOn: #variable to chack if perdition multiball ball save is active
     value_type: int
     initial_value: 0
+  dashSU1:
+    value_type: int
+    initial_value: 0
+  dashSU2:
+    value_type: int
+    initial_value: 0
+  dashSU3:
+    value_type: int
+    initial_value: 0
+
 
 playfields:
   playfield:

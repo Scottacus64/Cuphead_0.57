@@ -458,6 +458,16 @@ variable_player:  #_hit is for shots and _active is for switches
     perditionBallSaveOn:
       int: 0
       action: set
+  mode_dashLit_started:
+    dashSU1:
+      int: 0
+      action: set
+    dashSU2:
+      int: 0
+      action: set      
+    dashSU3:
+      int: 0
+      action: set
 
 ###############################################################################################
 #                                 SOUND PLAYER                                                #
