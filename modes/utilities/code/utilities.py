@@ -1,3 +1,6 @@
+from pathlib import Path
+import yaml
+
 from mpf.core.mode import Mode
 
 
@@ -7,18 +10,20 @@ class Utilities(Mode):
         del kwargs
 
         self.machine.variables.set_machine_var("utilities_active", 1)
-
-        # Stop attract light shows / normal lamp control
         self.machine.events.post("stop_attract")
 
-        # Clear all current light control
         for light in self.machine.lights.values():
             light.remove_from_stack_by_key("show")
             light.remove_from_stack_by_key("mode")
             light.off(key="utility_reset")
 
-
-        self.menu_items = ["LIGHT TEST", "SWITCH TEST", "COIL TEST"]
+        self.menu_items = [
+            "LIGHT TEST",
+            "SWITCH TEST",
+            "COIL TEST",
+            "AUDITS",
+            "CLEAR AUDITS",
+        ]
         self.menu_index = 0
         self.state = "menu"
 
@@ -88,7 +93,7 @@ class Utilities(Mode):
         elif self.state == "coil":
             self.coil_index = (self.coil_index - 1) % len(self.coil_names)
             self.show_coil()
-        elif self.state in ("switch", "light"):
+        elif self.state in ("switch", "light", "audits", "audit_clear_confirm"):
             self.show_menu()
 
         return True
@@ -102,7 +107,7 @@ class Utilities(Mode):
         elif self.state == "coil":
             self.coil_index = (self.coil_index + 1) % len(self.coil_names)
             self.show_coil()
-        elif self.state in ("switch", "light"):
+        elif self.state in ("switch", "light", "audits", "audit_clear_confirm"):
             self.show_menu()
 
         return True
@@ -119,9 +124,16 @@ class Utilities(Mode):
                 self.start_switch_test()
             elif selected == "COIL TEST":
                 self.start_coil_test()
+            elif selected == "AUDITS":
+                self.start_audits_view()
+            elif selected == "CLEAR AUDITS":
+                self.confirm_clear_audits()
 
         elif self.state == "coil":
             self.fire_selected_coil()
+
+        elif self.state == "audit_clear_confirm":
+            self.clear_audits_file()
 
         return True
 
@@ -319,3 +331,91 @@ class Utilities(Mode):
 
         if self.state == "coil":
             self.show_coil()
+
+    # -------------------------
+    # Audits
+    # -------------------------
+
+    def audits_path(self):
+        return Path(self.machine.machine_path) / "data" / "audits.yaml"
+
+    def start_audits_view(self):
+        self.state = "audits"
+        path = self.audits_path()
+
+        if not path.exists():
+            self.update_screen(
+                title="AUDITS",
+                line1="audits.yaml not found",
+                line2=str(path)[:40],
+                line3="",
+                line4="",
+                line5="",
+                help_text="< OR > = BACK TO MENU    X = EXIT",
+            )
+            return
+
+        try:
+            with path.open("r") as f:
+                data = yaml.safe_load(f) or {}
+        except Exception as e:
+            self.update_screen(
+                title="AUDITS",
+                line1="ERROR READING FILE",
+                line2=str(e)[:40],
+                line3="",
+                line4="",
+                line5="",
+                help_text="< OR > = BACK TO MENU    X = EXIT",
+            )
+            return
+
+        events = data.get("events", {})
+        game_started = events.get("game_started", 0)
+        game_ended = events.get("game_ended", 0)
+
+        self.update_screen(
+            title="AUDITS",
+            line1=f"Games Started: {game_started}",
+            line2=f"Games Ended: {game_ended}",
+            line3="",
+            line4="",
+            line5="",
+            help_text="< OR > = BACK TO MENU    X = EXIT",
+        )
+
+    def confirm_clear_audits(self):
+        self.state = "audit_clear_confirm"
+
+        self.update_screen(
+            title="CLEAR AUDITS?",
+            line1="This will erase audits.yaml",
+            line2="Press M to confirm",
+            line3="Press < or > to cancel",
+            line4="",
+            line5="",
+            help_text="M = ERASE    < OR > = CANCEL    X = EXIT",
+        )
+
+    def clear_audits_file(self):
+        path = self.audits_path()
+
+        try:
+            with path.open("w") as f:
+                f.write("{}\n")
+
+            result = "audits.yaml erased"
+        except Exception as e:
+            result = f"ERROR: {e}"
+
+        self.update_screen(
+            title="AUDITS CLEARED",
+            line1=result[:40],
+            line2="",
+            line3="",
+            line4="",
+            line5="",
+            help_text="< OR > = BACK TO MENU    X = EXIT",
+        )
+
+        self.state = "audits"
