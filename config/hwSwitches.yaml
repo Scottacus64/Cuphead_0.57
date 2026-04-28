@@ -24,15 +24,15 @@ switches:
     number: 0-0-3
     tags: dtSw
     type: 'NC'
-  s_EOS_L:
-    number: 1-0-8
-    type: 'NC'
+  #s_EOS_L:
+  #  number: 1-0-8
+  #  type: 'NC'
   s_sling_L:
     number: 0-0-9
     tags: slingSw
-  s_EOS_R:
-    number: 0-0-10
-    type: 'NC'
+  #s_EOS_R:
+  #  number: 0-0-10
+  #  type: 'NC'
   s_sling_R:
     number: 0-0-11
     tags: slingSw

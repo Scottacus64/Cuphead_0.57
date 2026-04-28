@@ -204,7 +204,7 @@ class Utilities(Mode):
         self.light_index = (self.light_index + 1) % len(self.light_names)
 
         self.delay.add(
-            ms=300,
+            ms=150,
             callback=self.cycle_light,
             name="utility_light_cycle"
         )
