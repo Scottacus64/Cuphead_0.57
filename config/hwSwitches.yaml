@@ -38,7 +38,7 @@ switches:
     tags: slingSw
   s_start:
     number: 1-0-2
-    tags: start
+
   s_tilt_bob:
     number: 1-0-3
     tags: tilt_warning

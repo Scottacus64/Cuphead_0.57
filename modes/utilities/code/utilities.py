@@ -17,6 +17,7 @@ class Utilities(Mode):
             light.remove_from_stack_by_key("mode")
             light.off(key="utility_reset")
 
+
         self.menu_items = ["LIGHT TEST", "SWITCH TEST", "COIL TEST"]
         self.menu_index = 0
         self.state = "menu"
@@ -36,6 +37,7 @@ class Utilities(Mode):
         self.add_mode_event_handler("utility_select", self.select)
         self.add_mode_event_handler("exit_utilities", self.exit_utilities)
 
+        self.machine.events.post("show_utility_topper")
         self.show_menu()
 
     def mode_stop(self, **kwargs):

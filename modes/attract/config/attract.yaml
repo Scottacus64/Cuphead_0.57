@@ -1,6 +1,10 @@
 #config_version=6
 #Cuphead Attract Mode
 
+mode:
+  start_events: machine_reset_phase_3, start_attract
+  stop_events: game_starting, stop_attract
+
 ###############################################################################################
 #                                       PLAYERS                                               #
 ###############################################################################################
@@ -9,13 +13,20 @@ show_player:
   mode_attract_started: # when the mode begins...
     attract_display_loop: # play the "attract_display_loop" with a...
      speed: 1 # speed of 1
-#    giLinear:
     insertsLinear:
       speed: 4
+  mode_attract_stopped:
+    attract_display_loop:
+      action: stop
+      key: attract_display_loop
+    insertsLinear:
+      action: stop
+      key: insertsLinear
 
 sound_player: # plays the attract music
   mode_attract_started:
     attract:
+      key: attract_music
       loops: 0 # loops the music once
       mode_end_action: stop
   request_to_start_game: startCallOuts # play the announcer voice when a player is added
@@ -26,6 +37,9 @@ sound_player: # plays the attract music
       mode_end_action: stop
   s_right_flipper_active:
     attract:
+      action: stop
+  mode_attract_stopped:
+    attract_music:
       action: stop
 
 

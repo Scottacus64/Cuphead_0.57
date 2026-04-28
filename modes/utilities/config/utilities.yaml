@@ -1,18 +1,5 @@
 #config_version=6
 # Cuphead Utilities Mode
-#
-# Enter with keyboard event: enter_utilities
-# Menu controls:
-#   Left flipper  = previous
-#   Right flipper = next
-#   Start button  = select / fire coil
-#
-# In coil test:
-#   Left/right flipper scroll through coils
-#   Start pulses selected coil
-#
-# Exit:
-#   Keyboard event exit_utilities, or add a physical switch/event later.
 
 mode:
   start_events: enter_utilities
@@ -22,10 +9,20 @@ mode:
   game_mode: false
 
 slide_player:
+
+  # Main utilities slide
   mode_utilities_started:
     utility_slide:
       target: middle
       priority: 10000
+
+  # Topper slide triggered from Python
+  show_utility_topper:
+    utility_topper_slide:
+      target: upper
+      priority: 10000
+
+  # Refresh utility text updates
   utility_update:
     utility_slide:
       target: middle
@@ -39,54 +36,81 @@ sound_player:
 event_player:
   mode_utilities_started:
     - stop_attract
-    - mode_attract_stop
+
   mode_utilities_stopped:
     - start_attract
 
 slides:
+
+  # -------------------------
+  # Upper display topper
+  # -------------------------
+
+  utility_topper_slide:
+    widgets:
+      - type: image
+        image: topper_image
+        anchor_x: center
+        anchor_y: center
+        x: 540
+        y: 175
+        z: 1
+
+  # -------------------------
+  # Middle display
+  # -------------------------
+
   utility_slide:
     widgets:
+
       - type: rectangle
         width: 1080
         height: 600
         color: black
         z: 1
+
       - type: text
         text: (utility_title)
         font_size: 70
         color: white
         y: 500
         z: 2
+
       - type: text
         text: (utility_line1)
         font_size: 45
         color: white
         y: 400
         z: 2
+
       - type: text
         text: (utility_line2)
         font_size: 45
         color: yellow
         y: 330
         z: 2
+
       - type: text
         text: (utility_line3)
         font_size: 38
         color: white
         y: 260
         z: 2
+
       - type: text
         text: (utility_line4)
         font_size: 38
         color: white
         y: 210
         z: 2
+
       - type: text
         text: (utility_line5)
         font_size: 38
         color: white
         y: 160
         z: 2
+
       - type: text
         text: (utility_help)
         font_size: 28
@@ -94,3 +118,6 @@ slides:
         y: 60
         z: 2
 
+images:
+  topper_image:
+    file: topper.png
