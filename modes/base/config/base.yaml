@@ -198,9 +198,10 @@ ball_saves:
   ballOut:
     active_time: 9s
     hurry_up_time: 3s
-    timer_start_events: balldevice_bd_trough_ejecting_ball
+    enable_events: first_launch_for_save
     balls_to_save: 1
     disable_events: s_trough2_active{s_shooter_lane_active}, mbFail, startMBPost
+
 
 ###############################################################################################
 #                         _____ __                                                            #
@@ -360,6 +361,14 @@ show_player:
 ###############################################################################################
 
 variable_player:  #_hit is for shots and _active is for switches
+  first_launch_seen_reset:
+    first_launch_seen:
+      int: 0
+      action: set
+  first_launch_for_save:
+    first_launch_seen:
+      int: 1
+      action: set
   bonus:
     int: 1
     action: set
@@ -464,7 +473,7 @@ variable_player:  #_hit is for shots and _active is for switches
       action: set
     dashSU2:
       int: 0
-      action: set      
+      action: set
     dashSU3:
       int: 0
       action: set
@@ -593,6 +602,11 @@ event_player: # this event player looks for the x_play event that is posted by t
   timer_special7HurryUp_timer_complete{current_player.dice_pips==7}: special7End7 # show that the timer is complete with 7
   timer_special7HurryUp_timer_complete{current_player.dice_pips!=7}: special7End # show that the timer is complete not 7
   timer_spinner_timer_complete{current_player.dice_pips==7 and current_player.flag > 0}: sevens # post sevens to show that 7000 has been collected
+
+  single_player_ball_started: first_launch_seen_reset
+  player_1_ball_started: first_launch_seen_reset
+  player_2_ball_started: first_launch_seen_reset
+  s_shooter_lane_inactive{current_player.first_launch_seen==0}: first_launch_for_save
 
 ###############################################################################################
 #                                       SLIDES                                                #

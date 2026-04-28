@@ -46,14 +46,14 @@ coils:
    # C J9 plug
   c_dt_reset_CUP:
     number: 1-0-0
-    default_pulse_ms: 100  # 60 will work
+    default_pulse_ms: 140  # 60 will work
   c_dt_reset_MUG:
     number: 1-0-1
     default_pulse_ms: 100  # 60 will work
 
   c_flipper_right_main: # Autofire so switch must be on Board 1
     number: 1-0-2
-    default_pulse_ms: 20
+    default_pulse_ms: 24
   c_flipper_right_hold: # Autofire so switch must be on Board 1
     number: 1-0-3
     default_hold_power: .5

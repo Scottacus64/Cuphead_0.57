@@ -39,6 +39,7 @@ modes: # for a mode to be seen by mpf it needs to be in this list otherwise it w
   - high_score
   - star
   - zeroOut
+  - utilities
 
 ###############################################################################################
 #                               POWER SUPPLY SETTINGS                                         #
@@ -100,6 +101,12 @@ config: # for a cleaner config file these have all been spit out to their own fi
   - hwLights.yaml
   - hwCoils.yaml
   - sound.yaml
+
+machine_vars:
+  utilities_active:
+    initial_value: 0
+    value_type: int
+
 
 ###############################################################################################
 #                                    WINDOW                                                   #

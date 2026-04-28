@@ -32,7 +32,7 @@ keyboard:
     switch: s_soul_S
   o:
     switch: s_soul_O
-  u:
+  y:
     switch: s_soul_U
   l:
     switch: s_soul_L
@@ -60,7 +60,7 @@ keyboard:
   d:
     switch: s_dash_R
     toggle: true
-  x:
+  c:
     switch: s_shooter_lane
   v:
     switch: s_trough_jam
@@ -68,10 +68,19 @@ keyboard:
     switch: s_perdition
   j:
     switch: s_standUp_R
+  u:
+    event: enter_utilities
+  x:
+    event: exit_utilities
 
+  ',':
+    event: utility_left
 
+  '.':
+    event: utility_right
 
-
+  m:
+    event: utility_select
 
 
 
