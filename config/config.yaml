@@ -89,11 +89,12 @@ player_vars: # these are player variables that can be seen by all modes
 playfields:
   playfield:
     tags: default
-    default_source_device: bd_trough # bd_plunger
-#    enable_ball_search: true
-#    ball_search_timeout: 20s
-#    ball_search_wait_after_iteration: 10s
-#    ball_search_interval: 250ms
+    default_source_device: bd_trough
+
+ball_search:
+  enabled: true
+  timeout: 15s
+  interval: 2s
 
 config: # for a cleaner config file these have all been spit out to their own files
   - keyboard.yaml
@@ -104,8 +105,7 @@ config: # for a cleaner config file these have all been spit out to their own fi
 
 machine_vars:
   utilities_active:
-    initial_value: 0
-    value_type: int
+    initial_value: 0    value_type: int
 
 
 ###############################################################################################

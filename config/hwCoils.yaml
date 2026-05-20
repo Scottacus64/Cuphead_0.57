@@ -12,23 +12,28 @@ coils:
   c_popBumper_1: # Autofire so switch must be on Board 0
     number: 0-0-5
     default_pulse_ms: 17
+    ball_search_order: 30
   c_trough_eject:
     number: 0-0-6
     default_pulse_ms: 100
   c_popBumper_3: # Autofire so switch must be on Board 0
     number: 0-0-7
     default_pulse_ms: 17
+    ball_search_order: 40
   c_popBumper_2: # Autofire so switch must be on Board 0
     number: 0-0-15
     default_pulse_ms: 17
+    ball_search_order: 50
 
   # B J8 plug
   c_dash_L:
     number: 0-0-8
     default_pulse_ms: 13
+    ball_search_order: 10
   c_dash_R:
     number: 0-0-9
     default_pulse_ms: 20
+    ball_search_order: 20
   c_perdition_post_down:
     number: 0-0-10
     default_pulse_ms: 15

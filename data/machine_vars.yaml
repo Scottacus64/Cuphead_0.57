@@ -5,8 +5,8 @@ master_volume:
 player1_score:
   expire: null
   expire_secs: null
-  value: 11400
+  value: 4870
 utilities_active:
   expire: null
   expire_secs: null
-  value: 1
+  value: 0
