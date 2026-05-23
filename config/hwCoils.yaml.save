@@ -156,7 +156,6 @@ ball_devices:
     eject_coil: c_dash_L
     eject_targets: playfield
     eject_timeouts: 1S
-    ball_search_order: 10
   bd_dash_R:
     ball_switches: s_dash_R
     eject_coil: c_dash_R

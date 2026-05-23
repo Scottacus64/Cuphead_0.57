@@ -90,11 +90,11 @@ playfields:
   playfield:
     tags: default
     default_source_device: bd_trough
-
-ball_search:
-  enabled: true
-  timeout: 15s
-  interval: 2s
+    enable_ball_search: true
+    ball_search_timeout: 15s
+    ball_search_interval: 2s
+    ball_search_unblock_events: mode_base_started
+    ball_search_block_events: ball_ending, mode_attract_started, machine_reset_phase_3
 
 config: # for a cleaner config file these have all been spit out to their own files
   - keyboard.yaml
@@ -105,7 +105,8 @@ config: # for a cleaner config file these have all been spit out to their own fi
 
 machine_vars:
   utilities_active:
-    initial_value: 0    value_type: int
+    initial_value: 0    
+    value_type: int
 
 
 ###############################################################################################

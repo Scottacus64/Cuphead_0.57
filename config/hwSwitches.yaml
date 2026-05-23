@@ -106,7 +106,7 @@ switches:
     type: 'NC'
   s_soul_L:
     number: 1-0-42
-    tags: inLanesSw
+    tags: inLanesSw, playfield_active
     type: 'NC'
   s_kicker:
     number: 1-0-43
@@ -133,7 +133,7 @@ switches:
     type: 'NC'
   s_soul_S:
     number: 1-0-50
-    tags: inLanesSw
+    tags: inLanesSw, playfield_active
     type: 'NC'
   s_star_2:
     number: 1-0-51
@@ -160,11 +160,11 @@ switches:
     type: 'NC'
   s_soul_U:
     number: 1-0-58
-    tags: inLanesSw
+    tags: inLanesSw, playfield_active
     type: 'NC'
   s_soul_O:
     number: 1-0-59
-    tags: inLanesSw
+    tags: inLanesSw, playfield_active
     type: 'NC'
   s_standUp_1:
     number: 1-0-61
